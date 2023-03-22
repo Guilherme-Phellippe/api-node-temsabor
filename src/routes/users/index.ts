@@ -27,7 +27,7 @@ app.get('/users', async (req: any, res: any) => {
         }
     });
     res.status(200).json(users);
-});
+})
 
 app.get('/user/:id', async (req: any, res: any) => {
     const id = req.params.id
