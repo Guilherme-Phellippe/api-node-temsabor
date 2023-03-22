@@ -1,0 +1,137 @@
+import { PrismaClient } from "@prisma/client";
+
+import { Router } from "express";
+
+const app = Router();
+const prisma = new PrismaClient();
+
+
+app.post('/comment', async (req: any, res: any) => {
+
+    const comment = await prisma.comment.create({
+        data: {
+            userId: req.body.userId,
+            recipeId: req.body.recipeId,
+            comment: req.body.comment,
+        }
+    });
+
+    res.status(201).json(comment)
+});
+
+app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
+    const { id, userId } = req.params
+
+    const comment = await prisma.comment.findUniqueOrThrow({
+        where: {
+            id
+        },
+        select: {
+            userId: true
+        }
+    });
+
+    const user = await prisma.user.findUniqueOrThrow({
+        where: {
+            id: userId
+        },
+        select: {
+            admin: true
+        }
+    });
+
+    if (user.admin || comment.userId === userId) {
+        await prisma.comment.delete({
+            where: {
+                id
+            }
+        });
+        res.status(201).json({ msg: "comment delete with success" })
+    } else res.status(401).json({ error: "User unauthorized delete this comment" })
+});
+
+
+app.post('/comment/:id/answer', async (req: any, res: any) => {
+    const { id } = req.params;
+
+    const comment = await prisma.comment.findUniqueOrThrow({
+        where: {
+            id
+        }
+    });
+
+    const answerObject = {
+        id: comment.answer.length + 1,
+        idUser: req.body.idUser,
+        answer: req.body.answer
+    }
+
+    comment.answer.push(answerObject)
+
+    const updateComment = await prisma.comment.update({
+        where: {
+            id,
+        },
+        data: {
+            answer: comment.answer
+        }
+    })
+
+    res.status(201).json(updateComment)
+})
+
+
+app.delete('/comment/:id/answer/:answerId/user/:userId', async (req: any, res: any) => {
+    const { id, answerId, userId } = req.params
+    interface Answer {
+        id: string,
+        idUser: string,
+        answer: string[]
+    }
+    interface Comment {
+        userId: string,
+        answer: Answer[]
+    }
+
+    const comment:Comment | null = (await prisma.comment.findUnique({
+        where: {
+            id
+        },
+        select: {
+            userId: true,
+            answer: true
+        }
+    })) as Comment | null;
+
+    if(!comment) throw new Error("this comment is null");
+
+    const user = await prisma.user.findUniqueOrThrow({
+        where: {
+            id: userId
+        }
+    })
+
+    const answerData = comment.answer.find((answer) => answer.id.toString() === answerId);
+    
+    if(!answerData) throw new Error("there is no answer with this id")
+    
+    
+    if (user.admin || answerData.idUser === userId) {
+        const data:any = comment.answer.filter((answer) => answer.id.toString() !== answerId);
+
+        await prisma.comment.update({
+            where: {
+                id
+            },
+            data:{
+               answer: data
+            }
+        });
+
+        res.status(201).json({ msg: "Answer delete with success" })
+    } else res.status(401).json({ error: "User unauthorized delete this answer" })
+});
+
+
+
+export default app

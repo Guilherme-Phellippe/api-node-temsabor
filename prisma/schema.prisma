@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Recipe {
+  id            String   @id @default(uuid())
+  categoryId    String
+  userId        String
+  name_recipe   String
+  images_recipe Json[]
+  videos_recipe String[]
+  time          Int
+  portion       Int
+  ing           String[]
+  word_key      String[]
+  prepareMode   String
+  nmr_hearts    String[] @default([])
+  nmr_eyes      Int      @default(0)
+  nmr_saved     Int      @default(0)
+  votes         String[]
+  createdAt     DateTime @default(now())
+
+  category Category  @relation(fields: [categoryId], references: [id])
+  user     User      @relation(fields: [userId], references: [id])
+  comments Comment[]
+}
+
+model Comment {
+  id       String @id @default(uuid())
+  recipeId String
+  userId   String
+  comment  String
+  answer   Json[]
+
+  recipe Recipe @relation(fields: [recipeId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id             String   @id @default(uuid())
+  name           String
+  photo          String   @default("https://i.ibb.co/JCNSM0R/143086968-2856368904622192-1959732218791162458-n.png")
+  email          String   @unique
+  password       String
+  nmr_hearts     Int      @default(0)
+  nmr_eyes       Int      @default(0)
+  nmr_prizes_won String[]
+  admin          Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  recipe   Recipe[]
+  comments Comment[]
+}
+
+model Category {
+  id            String   @id @default(uuid())
+  name_category String   @unique
+  suggestion    Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  recipe Recipe[]
+}
+
+model Prize {
+  id        String   @id @default(uuid())
+  image     String
+  name      String
+  price     Int
+  available Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

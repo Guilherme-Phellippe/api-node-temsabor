@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: SSH Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: 165.227.203.170
+          username: temsabor
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ../../app/server
+            git config --global --add safe.directory /app/server
+            git pull origin main
+            sudo npm i
+            sudo npm run build
+            pm2 restart temsabor-server
+
