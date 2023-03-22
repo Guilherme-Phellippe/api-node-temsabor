@@ -10,7 +10,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY2 }}
           repository: git@github.com:Guilherme-Phellippe/api-node-temsabor.git
 
       - name: SSH Deploy
@@ -18,7 +18,7 @@ jobs:
         with:
           host: 165.227.203.170
           username: temsabor
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY2 }}
           script: |
             cd ../../app/server
             git config --global --add safe.directory /app/server
