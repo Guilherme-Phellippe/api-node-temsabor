@@ -9,6 +9,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: main
+          token: ${{ secrets.SECRET_PASSWORD_ACCESS_REPOSITORY }}
 
       - name: SSH Deploy
         uses: appleboy/ssh-action@master
@@ -19,9 +22,7 @@ jobs:
           script: |
             cd ../../app/server
             git config --global --add safe.directory /app/server
-            git stash
             git pull
-            git stash apply
             sudo npm i
             sudo npm run build
             pm2 restart temsabor-server
