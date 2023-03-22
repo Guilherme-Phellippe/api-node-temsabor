@@ -8,7 +8,7 @@ import { Router } from "express";
 const app = Router(); 
 const prisma = new PrismaClient();
 const { compare, hash} = pkg
-const { sign } = pkgjwt
+const { sign } = pkgjwt;
 
 //USERS
 app.get('/users', async (req: any, res: any) => {
