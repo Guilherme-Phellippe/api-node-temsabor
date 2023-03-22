@@ -16,6 +16,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: temsabor
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
           script: |
             cd ../../app/server
             git config --global --add safe.directory /app/server
