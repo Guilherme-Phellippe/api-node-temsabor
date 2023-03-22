@@ -9,9 +9,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          repository: git@github.com:Guilherme-Phellippe/api-node-temsabor.git
 
       - name: SSH Deploy
         uses: appleboy/ssh-action@master

@@ -25,7 +25,7 @@ app.get('/users', async (req: any, res: any) => {
             admin: true,
             comments: true,
         }
-    })
+    });
     res.status(200).json(users);
 });
 
