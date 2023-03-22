@@ -14,8 +14,6 @@ const { sign } = pkgjwt
 app.get('/users', async (req: any, res: any) => {
     const users = await prisma.user.findMany({
         select:{
-            admin: true,
-            comments: true,
             email: true,
             createdAt: true,
             name: true,
@@ -23,7 +21,9 @@ app.get('/users', async (req: any, res: any) => {
             nmr_hearts:true,
             nmr_prizes_won: true,
             photo: true,
-            recipe: true
+            recipe: true,
+            admin: true,
+            comments: true,
         }
     })
     res.status(200).json(users)
