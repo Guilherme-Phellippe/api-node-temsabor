@@ -14,6 +14,7 @@ const { sign } = pkgjwt
 app.get('/users', async (req: any, res: any) => {
     const users = await prisma.user.findMany({
         select:{
+            admin: true,
             comments: true,
             email: true,
             createdAt: true,
