@@ -14,7 +14,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME_HOST }}
+          username: temsabor
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ../../app/server
