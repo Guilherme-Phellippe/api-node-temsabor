@@ -52,7 +52,7 @@ app.get('/user/:id', async (req: any, res: any) => {
 });
 
 app.post('/authenticate', async (req: any, res: any) => {
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
     const user = await prisma.user.findFirst({
         where: { email },
