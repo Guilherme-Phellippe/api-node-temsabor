@@ -23,4 +23,3 @@ jobs:
             sudo npm i
             sudo npm run build
             pm2 restart temsabor-server
-
