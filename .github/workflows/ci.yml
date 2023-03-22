@@ -19,7 +19,9 @@ jobs:
           script: |
             cd ../../app/server
             git config --global --add safe.directory /app/server
-            git pull origin main
+            git stash
+            git pull
+            git stash apply
             sudo npm i
             sudo npm run build
             pm2 restart temsabor-server
