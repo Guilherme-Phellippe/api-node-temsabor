@@ -5,7 +5,7 @@ import { Router } from "express";
 const app = Router();
 const prisma = new PrismaClient();
 
-app.get('comment', async (req: any, res: any) =>{
+app.get('/comment', async (req: any, res: any) =>{
     const comment = await prisma.comment.findMany();
 
     res.status(200).json(comment)
