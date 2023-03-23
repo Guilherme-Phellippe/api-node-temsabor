@@ -27,7 +27,7 @@ app.post('/comment', async (req: any, res: any) => {
 app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
     const { id, userId } = req.params
 
-    const comment = await prisma.comment.findUniqueOrThrow({
+    const comment = await prisma.comment.findUnique({
         where: {
             id
         },
@@ -36,7 +36,7 @@ app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
         }
     });
 
-    const user = await prisma.user.findUniqueOrThrow({
+    const user = await prisma.user.findUnique({
         where: {
             id: userId
         },
@@ -45,14 +45,16 @@ app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
         }
     });
 
-    if (user.admin || comment.userId === userId) {
-        await prisma.comment.delete({
-            where: {
-                id
-            }
-        });
-        res.status(201).json({ msg: "comment delete with success" })
-    } else res.status(401).json({ error: "User unauthorized delete this comment" })
+    if(user && comment){
+        if (user.admin || comment.userId === userId) {
+            await prisma.comment.delete({
+                where: {
+                    id
+                }
+            });
+            res.status(201).json({ msg: "comment delete with success" })
+        } else res.status(401).json({ error: "User unauthorized delete this comment" })
+    }else res.status(404).json({error: "User or comment not found"})
 });
 
 
