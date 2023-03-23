@@ -22,7 +22,6 @@ app.get('/users', async (req: any, res: any) => {
             nmr_prizes_won: true,
             photo: true,
             recipe: true,
-            admin: true,
             comments: true,
         }
     });
