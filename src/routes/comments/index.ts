@@ -5,12 +5,6 @@ import { Router } from "express";
 const app = Router();
 const prisma = new PrismaClient();
 
-app.get('/comment', async (req: any, res: any) =>{
-    const comment = await prisma.comment.findMany();
-
-    res.status(200).json(comment)
-})
-
 app.post('/comment', async (req: any, res: any) => {
 
     const comment = await prisma.comment.create({
@@ -26,6 +20,8 @@ app.post('/comment', async (req: any, res: any) => {
 
 app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
     const { id, userId } = req.params
+
+    console.log(id)
 
     const comment = await prisma.comment.findUnique({
         where: {
