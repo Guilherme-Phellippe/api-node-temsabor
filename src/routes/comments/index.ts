@@ -21,8 +21,6 @@ app.post('/comment', async (req: any, res: any) => {
 app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
     const { id, userId } = req.params
 
-    console.log(id)
-
     const comment = await prisma.comment.findUnique({
         where: {
             id
@@ -31,6 +29,8 @@ app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
             userId: true,
         }
     });
+
+    console.log({comment: id, user:  userId})
 
     const user = await prisma.user.findUnique({
         where: {
