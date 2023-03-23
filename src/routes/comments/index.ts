@@ -43,7 +43,7 @@ app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
         select: {
             admin: true
         }
-    });
+    })
 
     if(user && comment){
         if (user.admin || comment.userId === userId) {
