@@ -32,7 +32,7 @@ app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
             id
         },
         select: {
-            userId: true
+            userId: true,
         }
     });
 
