@@ -83,7 +83,7 @@ app.post('/comment/:id/answer', async (req: any, res: any) => {
 
     comment.answer.push(answerObject)
 
-    const updateComment = await prisma.comment.update({
+    await prisma.comment.update({
         where: {
             id,
         },
@@ -92,7 +92,7 @@ app.post('/comment/:id/answer', async (req: any, res: any) => {
         }
     })
 
-    res.status(201).json(updateComment)
+    res.status(201).json(answerObject)
 })
 
 
