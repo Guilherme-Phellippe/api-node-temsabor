@@ -30,8 +30,6 @@ app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
         }
     });
 
-    console.log({comment: id, user:  userId})
-
     const user = await prisma.user.findUnique({
         where: {
             id: userId
@@ -63,9 +61,21 @@ app.post('/comment/:id/answer', async (req: any, res: any) => {
         }
     });
 
+    const user = await prisma.user.findUnique({
+        where:{
+            id: req.body.userId
+        }
+    })
+
+    if(!user) {
+        res.status(404).json({ error: "user not found" });
+        throw new Error("user not found")
+    }
+
     const answerObject = {
         id: comment.answer.length + 1,
-        idUser: req.body.idUser,
+        name: user.name,
+        photo: user.photo,
         answer: req.body.answer
     }
 
