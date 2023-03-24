@@ -76,7 +76,8 @@ app.post('/comment/:id/answer', async (req: any, res: any) => {
         id: comment.answer.length + 1,
         name: user.name,
         photo: user.photo,
-        answer: req.body.answer
+        answer: req.body.answer,
+        createdAt: new Date().toLocaleDateString('pt-br')
     }
 
     comment.answer.push(answerObject)

@@ -31,11 +31,12 @@ model Recipe {
 }
 
 model Comment {
-  id       String @id @default(uuid())
-  recipeId String
-  userId   String
-  comment  String
-  answer   Json[]
+  id        String   @id @default(uuid())
+  recipeId  String
+  userId    String
+  comment   String
+  answer    Json[]
+  createdAt DateTime @default(now())
 
   recipe Recipe @relation(fields: [recipeId], references: [id])
   user   User   @relation(fields: [userId], references: [id])
