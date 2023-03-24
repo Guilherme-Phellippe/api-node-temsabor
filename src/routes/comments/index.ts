@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 import { Router } from "express";
+import moment from "moment";
 
 const app = Router();
 const prisma = new PrismaClient();
@@ -77,7 +78,7 @@ app.post('/comment/:id/answer', async (req: any, res: any) => {
         name: user.name,
         photo: user.photo,
         answer: req.body.answer,
-        createdAt: new Date().toLocaleDateString('pt-br')
+        createdAt: moment().format()
     }
 
     comment.answer.push(answerObject)
