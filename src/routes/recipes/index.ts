@@ -50,6 +50,7 @@ app.get('/recipes', async (req: any, res: any) => {
                     id: true,
                     comment: true,
                     answer: true,
+                    createdAt: true,
                     user:{
                         select:{
                             id: true,
@@ -106,6 +107,7 @@ app.get('/recipes/:categoryId/category', async (req: any, res: any) => {
                     id: true,
                     comment: true,
                     answer: true,
+                    createdAt: true,
                     user:{
                         select:{
                             id:true,
@@ -168,6 +170,7 @@ app.get('/recipe/:id', async (req: any, res: any) => {
                         id: true,
                         comment: true,
                         answer: true,
+                        createdAt: true,
                         user:{
                             select:{
                                 id:true,
