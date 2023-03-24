@@ -75,6 +75,7 @@ app.post('/comment/:id/answer', async (req: any, res: any) => {
 
     const answerObject = {
         id: comment.answer.length + 1,
+        userId: user.id,
         name: user.name,
         photo: user.photo,
         answer: req.body.answer,
