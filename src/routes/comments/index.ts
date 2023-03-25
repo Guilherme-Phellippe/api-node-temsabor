@@ -102,7 +102,7 @@ app.delete('/comment/:id/answer/:answerId/user/:userId', async (req: any, res: a
 
     interface Answer {
         id: string,
-        idUser: string,
+        userId: string,
         answer: string[]
     }
     interface Comment {
@@ -137,8 +137,8 @@ app.delete('/comment/:id/answer/:answerId/user/:userId', async (req: any, res: a
     if(!answerData) throw new Error("there is no answer with this id")
     
     //CHECK IF USER IS ADMIN OR USER ID IS SIMILAR TO USERID
-    console.log(answerData.idUser, userId.toString())
-    if (user.admin || answerData.idUser === userId) {
+    console.log(answerData, userId.toString())
+    if (user.admin || answerData.userId === userId) {
         const data:any = comment.answer.filter((answer) => answer.id.toString() !== answerId);
 
         await prisma.comment.update({
