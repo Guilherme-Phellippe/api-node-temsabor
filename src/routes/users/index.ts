@@ -88,6 +88,7 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
             name: true,
             email: true,
             photo: true,
+            admin: true,
             nmr_eyes: true,
             nmr_hearts: true,
             nmr_prizes_won: true,
