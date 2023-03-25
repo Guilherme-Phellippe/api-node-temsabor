@@ -132,6 +132,7 @@ app.delete('/comment/:id/answer/:answerId/user/:userId', async (req: any, res: a
     })
 
     //SEARCH ALL ANSWERS BY ANSWERID
+    console.log(comment.answer)
     console.log(answerId, typeof answerId)
     const answerData = comment.answer.find((answer) => answer.id.toString() === answerId);
     
