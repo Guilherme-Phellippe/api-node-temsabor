@@ -134,10 +134,10 @@ app.delete('/comment/:id/answer/:answerId/user/:userId', async (req: any, res: a
     //SEARCH ALL ANSWERS BY ANSWERID
     const answerData = comment.answer.find((answer) => answer.id.toString() === answerId);
     
+    console.log(answerId)
     if(!answerData) throw new Error("there is no answer with this id")
     
     //CHECK IF USER IS ADMIN OR USER ID IS SIMILAR TO USERID
-    console.log(answerData, userId.toString())
     if (user.admin || answerData.userId === userId) {
         const data:any = comment.answer.filter((answer) => answer.id.toString() !== answerId);
 
