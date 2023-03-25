@@ -100,7 +100,6 @@ app.post('/comment/:id/answer', async (req: any, res: any) => {
 app.delete('/comment/:id/answer/:answerId/user/:userId', async (req: any, res: any) => {
 
     const { id, answerId, userId } = req.params
-    console.log(id, userId, answerId)
     interface Answer {
         id: string,
         idUser: string,
