@@ -37,6 +37,7 @@ app.get('/user/:id', async (req: any, res: any) => {
             id: true,
             name: true,
             email: true,
+            admin: true,
             photo: true,
             createdAt: true,
             nmr_eyes: true,

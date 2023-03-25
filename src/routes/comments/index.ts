@@ -98,8 +98,8 @@ app.post('/comment/:id/answer', async (req: any, res: any) => {
 
 
 app.delete('/comment/:id/answer/:answerId/user/:userId', async (req: any, res: any) => {
-
     const { id, answerId, userId } = req.params
+
     interface Answer {
         id: string,
         idUser: string,
@@ -110,6 +110,7 @@ app.delete('/comment/:id/answer/:answerId/user/:userId', async (req: any, res: a
         answer: Answer[]
     }
 
+    //SEARCH COMMENT BY ID AND SAVE ON VARIABLE FOR AFTER SEARCH ALL ANSWERS 
     const comment:Comment | null = (await prisma.comment.findUnique({
         where: {
             id
@@ -122,17 +123,21 @@ app.delete('/comment/:id/answer/:answerId/user/:userId', async (req: any, res: a
 
     if(!comment) throw new Error("this comment is null");
 
+
+    //SEARCH USER BY USERID 
     const user = await prisma.user.findUniqueOrThrow({
         where: {
             id: userId
         }
     })
 
+    //SEARCH ALL ANSWERS BY ANSWERID
     const answerData = comment.answer.find((answer) => answer.id.toString() === answerId);
     
     if(!answerData) throw new Error("there is no answer with this id")
     
-    
+    //CHECK IF USER IS ADMIN OR USER ID IS SIMILAR TO USERID
+    console.log(user.admin , answerData.idUser === userId)
     if (user.admin || answerData.idUser === userId) {
         const data:any = comment.answer.filter((answer) => answer.id.toString() !== answerId);
 
