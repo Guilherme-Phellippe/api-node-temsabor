@@ -19,37 +19,14 @@ app.get('/users', async (req: any, res: any) => {
             name: true,
             nmr_eyes: true,
             nmr_hearts:true,
-            nmr_prizes_won: true,
             photo: true,
             recipe: true,
             admin: true,
             comments: true,
+
         }
     });
     res.status(200).json(users)
-})
-
-app.get('/user/:id', async (req: any, res: any) => {
-    const id = req.params.id
-    const user = await prisma.user.findUniqueOrThrow({
-        where: { id },
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            admin: true,
-            photo: true,
-            createdAt: true,
-            nmr_eyes: true,
-            nmr_hearts: true,
-            nmr_prizes_won: true,
-        }
-    })
-
-    res.status(200).json({
-        token: '',
-        user
-    })
 });
 
 app.post('/authenticate', async (req: any, res: any) => {
@@ -91,7 +68,24 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
             admin: true,
             nmr_eyes: true,
             nmr_hearts: true,
-            nmr_prizes_won: true,
+            notification:{
+                select:{
+                    title: true,
+                    message: true,
+                    type: true,
+                    id: true,
+                    link: true,
+                }
+            },
+            winner:{
+                select:{
+                    rank: true,
+                    month:true,
+                    year: true
+                }
+            }
+
+            
         }
     });
 

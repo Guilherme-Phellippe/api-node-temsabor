@@ -25,8 +25,9 @@ model Recipe {
   votes         String[]
   createdAt     DateTime @default(now())
 
-  category Category  @relation(fields: [categoryId], references: [id])
-  user     User      @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+
   comments Comment[]
 }
 
@@ -43,19 +44,21 @@ model Comment {
 }
 
 model User {
-  id             String   @id @default(uuid())
-  name           String
-  photo          String   @default("https://i.ibb.co/JCNSM0R/143086968-2856368904622192-1959732218791162458-n.png")
-  email          String   @unique
-  password       String
-  nmr_hearts     Int      @default(0)
-  nmr_eyes       Int      @default(0)
-  nmr_prizes_won String[]
-  admin          Boolean  @default(false)
-  createdAt      DateTime @default(now())
+  id         String   @id @default(uuid())
+  name       String
+  photo      String   @default("https://i.ibb.co/JCNSM0R/143086968-2856368904622192-1959732218791162458-n.png")
+  email      String   @unique
+  password   String
+  nmr_hearts Int      @default(0)
+  nmr_eyes   Int      @default(0)
+  admin      Boolean  @default(false)
+  createdAt  DateTime @default(now())
 
-  recipe   Recipe[]
-  comments Comment[]
+  winner           Winner?            @relation("winnerUser")
+  recipe           Recipe[]
+  comments         Comment[]
+  notification     Notification[]
+  notificationUser NotificationUser[]
 }
 
 model Category {
@@ -67,6 +70,38 @@ model Category {
   recipe Recipe[]
 }
 
+model Notification {
+  id      String @id @default(uuid())
+  title   String
+  message String
+  type    Int
+  link    String @default("")
+
+  user             User[]
+  NotificationUser NotificationUser[]
+}
+
+model NotificationUser {
+  id             String @id @default(uuid())
+  notificationId String
+  userId         String
+
+  user         User         @relation(fields: [userId], references: [id])
+  notification Notification @relation(fields: [notificationId], references: [id])
+}
+
+model Winner {
+  id      String   @id @default(uuid())
+  userId  String   @unique
+  rank    String[]
+  prizeId String
+  month   Int
+  year    Int
+
+  user  User  @relation("winnerUser", fields: [userId], references: [id])
+  Prize Prize @relation(fields: [prizeId], references: [id])
+}
+
 model Prize {
   id        String   @id @default(uuid())
   image     String
@@ -74,4 +109,6 @@ model Prize {
   price     Int
   available Boolean  @default(false)
   createdAt DateTime @default(now())
+
+  winner Winner[]
 }
