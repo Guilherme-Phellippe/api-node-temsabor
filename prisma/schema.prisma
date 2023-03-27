@@ -51,6 +51,7 @@ model User {
   password   String
   nmr_hearts Int      @default(0)
   nmr_eyes   Int      @default(0)
+  nmr_saved  Int      @default(0)
   admin      Boolean  @default(false)
   createdAt  DateTime @default(now())
 

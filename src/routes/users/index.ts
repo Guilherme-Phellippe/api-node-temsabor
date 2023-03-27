@@ -68,6 +68,18 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
             admin: true,
             nmr_eyes: true,
             nmr_hearts: true,
+            nmr_saved: true,
+            recipe:{
+                select:{
+                    id: true,
+                    name_recipe: true,
+                    category: true,
+                    createdAt: true,
+                    nmr_eyes: true,
+                    nmr_hearts: true,
+                    nmr_saved: true
+                }
+            },
             notification:{
                 select:{
                     title: true,
@@ -87,6 +99,7 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
             _count:{
                 select:{
                     comments: true,
+                    
                 }
             }
 
@@ -103,6 +116,7 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
 
     user.nmr_eyes = recipes.reduce((total, item) => total + (item.nmr_eyes || 0), 0);
     user.nmr_hearts = recipes.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0 )
+    user.nmr_saved = recipes.reduce((total, recipe) => total + (recipe.nmr_saved || 0), 0 )
 
     res.status(200).json(user)
 });
