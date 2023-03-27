@@ -89,6 +89,19 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
         }
     });
 
+    const recipes = await prisma.recipe.findMany({
+        where:{
+            userId: user.id
+        }
+    });
+
+
+    user.nmr_eyes += Number(recipes.forEach(recipe => recipe.nmr_eyes))
+    user.nmr_hearts += Number(recipes.forEach(recipe => recipe.nmr_hearts.length))
+
+    console.log(user)
+
+
     res.status(200).json(user)
 });
 
