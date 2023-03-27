@@ -36,7 +36,6 @@ app.get('/recipes', async (req: any, res: any) => {
                     photo: true,
                     nmr_eyes: true,
                     nmr_hearts: true,
-                    nmr_prizes_won: true,
                 }
             },
             category: {
@@ -93,7 +92,6 @@ app.get('/recipes/:categoryId/category', async (req: any, res: any) => {
                     photo: true,
                     nmr_eyes: true,
                     nmr_hearts: true,
-                    nmr_prizes_won: true,
                 }
             },
             category: {
@@ -150,7 +148,6 @@ app.get('/recipe/:id', async (req: any, res: any) => {
                         photo: true,
                         nmr_eyes: true,
                         nmr_hearts: true,
-                        nmr_prizes_won: true,
                         admin: true,
                         _count: {
                             select: {

@@ -75,7 +75,7 @@ model Notification {
   title   String
   message String
   type    Int
-  link    String @default("")
+  link    String @default("/")
 
   user             User[]
   NotificationUser NotificationUser[]
