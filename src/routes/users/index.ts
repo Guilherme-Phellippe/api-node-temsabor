@@ -96,8 +96,8 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
     });
 
 
-    user.nmr_eyes += Number(recipes.forEach(recipe => recipe.nmr_eyes))
-    user.nmr_hearts += Number(recipes.forEach(recipe => recipe.nmr_hearts.length))
+    user.nmr_eyes += Number(recipes.forEach(recipe =>{ return  recipe.nmr_eyes }))
+    user.nmr_hearts += Number(recipes.forEach(recipe =>{ return  recipe.nmr_hearts.length }))
 
     console.log(user)
 
