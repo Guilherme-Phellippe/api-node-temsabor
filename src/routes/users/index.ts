@@ -68,7 +68,15 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
             admin: true,
             nmr_eyes: true,
             nmr_hearts: true,
-            
+            notification:{
+                select:{
+                    title: true,
+                    message: true,
+                    type: true,
+                    id: true,
+                    link: true,
+                }
+            },
             winner:{
                 select:{
                     rank: true,
