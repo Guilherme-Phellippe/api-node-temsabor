@@ -83,6 +83,11 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                     month:true,
                     year: true
                 }
+            },
+            _count:{
+                select:{
+                    comments: true,
+                }
             }
 
             
@@ -98,9 +103,6 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
 
     user.nmr_eyes = recipes.reduce((total, item) => total + (item.nmr_eyes || 0), 0);
     user.nmr_hearts = recipes.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0 )
-
-    console.log(user)
-
 
     res.status(200).json(user)
 });
