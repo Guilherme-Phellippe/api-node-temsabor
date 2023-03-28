@@ -163,7 +163,7 @@ app.post('/users', async (req: any, res: any) => {
 app.put('/users/:id', async (req: any, res: any) => {
     const { id } = req.params
 
-    const update =  await prisma.user.update({
+    const response = await prisma.user.update({
         where:{
             id,
         },
@@ -174,13 +174,46 @@ app.put('/users/:id', async (req: any, res: any) => {
         }
     })
 
-
     res.status(200).json({ menssage: "User updated with success"});
 });
 
 app.delete('/users/:id', (req: any, res: any) => {
     res.status(200).json([])
 });
+
+app.patch("/users/:id/change-password", async (req: any , res:any) =>{
+    const { id } = req.params;
+
+    const user = await prisma.user.findUniqueOrThrow({
+        where:{
+            id
+        },
+        select:{
+            password: true
+        }
+    });
+
+
+    const passwordMath = await compare(req.body.currentPassword, user.password);
+
+    if(passwordMath){
+        const hashPassword = await hash(req.body.newPassword, 8)
+
+        const response = await prisma.user.update({
+            where:{
+                id,
+            },
+            data:{
+                password: hashPassword
+            }
+        });
+
+        console.log(response)
+        if(response) res.status(201).json({message: "Password update with success"})
+    }else res.status(401).json({message: "User unauthorized perform this action"})
+    
+
+})
 
 
 export default app
