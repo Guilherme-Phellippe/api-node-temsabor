@@ -160,8 +160,22 @@ app.post('/users', async (req: any, res: any) => {
 
 });
 
-app.put('/users/:id', (req: any, res: any) => {
-    res.status(200).json([])
+app.put('/users/:id', async (req: any, res: any) => {
+    const { id } = req.params
+
+    const update =  await prisma.user.update({
+        where:{
+            id,
+        },
+        data:{
+            name: req.body?.name,
+            email: req.body?.email,
+            photo: req.body?.photo,
+        }
+    })
+
+
+    res.status(200).json(update)
 });
 
 app.delete('/users/:id', (req: any, res: any) => {
