@@ -175,7 +175,7 @@ app.put('/users/:id', async (req: any, res: any) => {
     })
 
 
-    res.status(200).json(update)
+    res.status(200).json({ menssage: "User updated with success"});
 });
 
 app.delete('/users/:id', (req: any, res: any) => {
