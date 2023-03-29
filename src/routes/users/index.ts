@@ -6,7 +6,9 @@ import { ensureAuthenticated } from "../../middlewares/ensureAuthenticated.js";
 import { Router } from "express";
 
 const app = Router();
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+    log: ['query']
+});
 const { compare, hash } = pkg
 const { sign } = pkgjwt;
 
@@ -220,7 +222,7 @@ app.delete('/users/:id', async (req: any, res: any) => {
                 id
             }
         });
-        
+
         res.status(200).json({ message: "Deleted user with success" })
     } catch {
         try{
