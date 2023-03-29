@@ -177,9 +177,6 @@ app.put('/users/:id', async (req: any, res: any) => {
     res.status(200).json({ menssage: "User updated with success"});
 });
 
-app.delete('/users/:id', (req: any, res: any) => {
-    res.status(200).json([])
-});
 
 app.patch("/users/:id/change-password", async (req: any , res:any) =>{
     const { id } = req.params;
@@ -208,12 +205,24 @@ app.patch("/users/:id/change-password", async (req: any , res:any) =>{
             }
         });
 
-        console.log(response)
         if(response) res.status(201).json({message: "Password update with success"})
     }else res.status(401).json({message: "User unauthorized perform this action"})
     
 
-})
+});
+
+app.delete('/users/:id', async (req: any, res: any) => {
+    const { id } = req.params;
+
+    const deletedUser = await prisma.user.delete({
+        where:{
+            id
+        }
+    });
+
+    res.status(200).json(deletedUser, {message: "Deleted user with success" })
+});
+
 
 
 export default app
