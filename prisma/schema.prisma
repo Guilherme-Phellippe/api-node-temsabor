@@ -58,7 +58,6 @@ model User {
   winner           Winner?            @relation("winnerUser")
   recipe           Recipe[]
   comments         Comment[]
-  notification     Notification[]
   notificationUser NotificationUser[]
 }
 
@@ -79,17 +78,18 @@ model Notification {
   link    String  @default("")
   read    Boolean @default(false)
 
-  user             User[]
   NotificationUser NotificationUser[]
 }
 
 model NotificationUser {
-  id             String @id @default(uuid())
   notificationId String
   userId         String
+  createdAt      DateTime @default(now())
 
   user         User         @relation(fields: [userId], references: [id])
   notification Notification @relation(fields: [notificationId], references: [id])
+
+  @@id([userId, notificationId])
 }
 
 model Winner {

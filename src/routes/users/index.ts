@@ -87,13 +87,19 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                     nmr_saved: true
                 }
             },
-            notification: {
-                select: {
-                    title: true,
-                    message: true,
-                    type: true,
-                    id: true,
-                    link: true,
+            notificationUser:{
+                select:{
+                    notification:{
+                        select:{
+                            _count: true,
+                            id: true,
+                            title: true,
+                            message: true,
+                            read: true,
+                            link: true,
+                            type: true
+                        }
+                    }
                 }
             },
             winner: {

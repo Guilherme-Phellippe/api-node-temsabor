@@ -11,17 +11,6 @@ app.get("/notification/:id", async (req: any, res: any) => {
     const notifications = await prisma.notificationUser.findMany({
         where:{
             userId: id
-        }, select:{
-            notification:{
-                select:{
-                    id: true,
-                    title: true,
-                    message: true,
-                    link: true,
-                    type: true,
-                    _count: true
-                }
-            }
         }
     });
 
