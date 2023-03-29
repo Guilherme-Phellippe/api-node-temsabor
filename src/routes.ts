@@ -16,4 +16,8 @@ route.use(users);
 import prizes from "./routes/prizes/index.js"
 route.use(prizes);
 
+import notifications from "./routes/notification/index.js"
+route.use(notifications)
+
+
 export default route;
