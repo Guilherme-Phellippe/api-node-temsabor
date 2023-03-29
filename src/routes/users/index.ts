@@ -214,13 +214,15 @@ app.patch("/users/:id/change-password", async (req: any , res:any) =>{
 app.delete('/users/:id', async (req: any, res: any) => {
     const { id } = req.params;
 
-    const deletedUser = await prisma.user.delete({
+   const deleted = await prisma.user.delete({
         where:{
             id
         }
     });
 
-    res.status(200).json(deletedUser, {message: "Deleted user with success" })
+    console.log(deleted)
+
+    res.status(200).json({message: "Deleted user with success" })
 });
 
 
