@@ -5,20 +5,20 @@ import { ensureAuthenticated } from "../../middlewares/ensureAuthenticated.js";
 
 import { Router } from "express";
 
-const app = Router(); 
+const app = Router();
 const prisma = new PrismaClient();
-const { compare, hash} = pkg
+const { compare, hash } = pkg
 const { sign } = pkgjwt;
 
 //USERS
 app.get('/users', async (req: any, res: any) => {
     const users = await prisma.user.findMany({
-        select:{
+        select: {
             email: true,
             createdAt: true,
             name: true,
             nmr_eyes: true,
-            nmr_hearts:true,
+            nmr_hearts: true,
             photo: true,
             recipe: true,
             admin: true,
@@ -69,13 +69,13 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
             nmr_eyes: true,
             nmr_hearts: true,
             nmr_saved: true,
-            recipe:{
-                select:{
+            recipe: {
+                select: {
                     id: true,
                     name_recipe: true,
                     images_recipe: true,
                     category: {
-                        select:{
+                        select: {
                             name_category: true
                         }
                     },
@@ -85,8 +85,8 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                     nmr_saved: true
                 }
             },
-            notification:{
-                select:{
+            notification: {
+                select: {
                     title: true,
                     message: true,
                     type: true,
@@ -94,34 +94,34 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                     link: true,
                 }
             },
-            winner:{
-                select:{
+            winner: {
+                select: {
                     rank: true,
-                    month:true,
+                    month: true,
                     year: true
                 }
             },
-            _count:{
-                select:{
+            _count: {
+                select: {
                     comments: true,
-                    
+
                 }
             }
 
-            
+
         }
     });
 
     const recipes = await prisma.recipe.findMany({
-        where:{
+        where: {
             userId: user.id
         }
     });
 
 
     user.nmr_eyes = recipes.reduce((total, item) => total + (item.nmr_eyes || 0), 0);
-    user.nmr_hearts = recipes.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0 )
-    user.nmr_saved = recipes.reduce((total, recipe) => total + (recipe.nmr_saved || 0), 0 )
+    user.nmr_hearts = recipes.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0)
+    user.nmr_saved = recipes.reduce((total, recipe) => total + (recipe.nmr_saved || 0), 0)
 
     res.status(200).json(user)
 });
@@ -164,28 +164,28 @@ app.put('/users/:id', async (req: any, res: any) => {
     const { id } = req.params
 
     const response = await prisma.user.update({
-        where:{
+        where: {
             id,
         },
-        data:{
+        data: {
             name: req.body?.name,
             email: req.body?.email,
             photo: req.body?.photo,
         }
     })
 
-    res.status(200).json({ menssage: "User updated with success"});
+    res.status(200).json({ menssage: "User updated with success" });
 });
 
 
-app.patch("/users/:id/change-password", async (req: any , res:any) =>{
+app.patch("/users/:id/change-password", async (req: any, res: any) => {
     const { id } = req.params;
 
     const user = await prisma.user.findUniqueOrThrow({
-        where:{
+        where: {
             id
         },
-        select:{
+        select: {
             password: true
         }
     });
@@ -193,36 +193,70 @@ app.patch("/users/:id/change-password", async (req: any , res:any) =>{
 
     const passwordMath = await compare(req.body.currentPassword, user.password);
 
-    if(passwordMath){
+    if (passwordMath) {
         const hashPassword = await hash(req.body.newPassword, 8)
 
         const response = await prisma.user.update({
-            where:{
+            where: {
                 id,
             },
-            data:{
+            data: {
                 password: hashPassword
             }
         });
 
-        if(response) res.status(201).json({message: "Password update with success"})
-    }else res.status(401).json({message: "User unauthorized perform this action"})
-    
+        if (response) res.status(201).json({ message: "Password update with success" })
+    } else res.status(401).json({ message: "User unauthorized perform this action" })
+
 
 });
 
 app.delete('/users/:id', async (req: any, res: any) => {
     const { id } = req.params;
 
-   const deleted = await prisma.user.delete({
-        where:{
-            id
+    try {
+        await prisma.user.delete({
+            where: {
+                id
+            }
+        });
+        
+        res.status(200).json({ message: "Deleted user with success" })
+    } catch {
+        try{
+            await Promise.all([
+                prisma.recipe.deleteMany({
+                    where: {
+                        userId: id
+                    }
+                }),
+                prisma.comment.deleteMany({
+                    where:{
+                        userId: id
+                    }
+                }),
+                prisma.winner.deleteMany({
+                    where:{
+                        userId: id
+                    }
+                }),
+                prisma.notificationUser.deleteMany({
+                    where: {
+                        userId: id
+                    }
+                }),
+                prisma.user.delete({
+                    where: {
+                        id
+                    }
+                }),
+            ]);
+
+            res.status(200).json({ message: "Deleted user with success" })
+        }catch{
+            res.status(500).json({message: "Failed to delete user in other tables"})
         }
-    });
-
-    console.log(deleted)
-
-    res.status(200).json({message: "Deleted user with success" })
+    }
 });
 
 
