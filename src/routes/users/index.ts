@@ -252,7 +252,7 @@ app.delete('/users/:id', async (req: any, res: any) => {
                         id
                     }
                 }),
-            ]);
+            ]).catch(error => console.log(error))
 
             res.status(200).json({ message: "Deleted user with success" })
         }catch{
