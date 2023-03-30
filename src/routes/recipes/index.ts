@@ -353,10 +353,10 @@ app.delete('/recipe/:id', async (req: any, res: any) => {
                 id
             }
         })
-        res.status(200).json(deleted)
+        if(deleted) res.status(200).json({ message : "Recipe deleted with success"})
 
     } catch {
-        const deleted = Promise.all([
+        Promise.all([
             prisma.comment.deleteMany({
                 where: {
                     recipeId: id
@@ -368,12 +368,9 @@ app.delete('/recipe/:id', async (req: any, res: any) => {
                 }
             })
 
-        ])
-
-        res.status(200).json(deleted)
-
+        ]).catch(error => res.status(500).json({error}))
+        res.status(200).json({ message : "Recipe deleted with success"})
     }
-
 });
 
 
