@@ -6,9 +6,7 @@ import { ensureAuthenticated } from "../../middlewares/ensureAuthenticated.js";
 import { Router } from "express";
 
 const app = Router();
-const prisma = new PrismaClient({
-    log: ['query']
-});
+const prisma = new PrismaClient();
 const { compare, hash } = pkg
 const { sign } = pkgjwt;
 
