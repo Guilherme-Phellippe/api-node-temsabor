@@ -50,10 +50,10 @@ app.get('/recipes', async (req: any, res: any) => {
                     comment: true,
                     answer: true,
                     createdAt: true,
-                    user:{
-                        select:{
+                    user: {
+                        select: {
                             id: true,
-                            name: true, 
+                            name: true,
                             photo: true,
                         }
                     }
@@ -106,9 +106,9 @@ app.get('/recipes/:categoryId/category', async (req: any, res: any) => {
                     comment: true,
                     answer: true,
                     createdAt: true,
-                    user:{
-                        select:{
-                            id:true,
+                    user: {
+                        select: {
+                            id: true,
                             name: true,
                             photo: true
                         }
@@ -161,16 +161,16 @@ app.get('/recipe/:id', async (req: any, res: any) => {
                         id: true,
                         name_category: true
                     }
-                }, 
+                },
                 comments: {
                     select: {
                         id: true,
                         comment: true,
                         answer: true,
                         createdAt: true,
-                        user:{
-                            select:{
-                                id:true,
+                        user: {
+                            select: {
+                                id: true,
                                 name: true,
                                 photo: true
                             }
@@ -206,20 +206,49 @@ app.post('/recipe', async (req: any, res: any) => {
     res.status(201).json(recipe);
 });
 
-app.put('/recipes/:id', (req: any, res: any) => {
-    res.status(200).json(
-        [
-            {
-                id: 0,
-                name_recipe: 'Receita de bolo de fubá ',
-            },
-            {
-                id: 0,
-                name_recipe: 'Receita de bolo de cenoura',
-            },
+app.put('/recipe/:id', async (req: any, res: any) => {
+    const { id } = req.params
+    const { name_category, name_recipe, images_recipe } = req.body;
 
-        ]
-    )
+    const existCategory = await prisma.category.findFirst({
+        where: {
+            name_category
+        }
+    })
+
+    var response;
+
+    if (existCategory && existCategory.name_category.includes(name_category)) {
+        response = await prisma.category.update({
+            where: {
+                id: existCategory.id
+            },
+            data: {
+                suggestion: {
+                    increment: 1
+                }
+            }
+        })
+    } else {
+        response = await prisma.category.create({
+            data: {
+                name_category: name_category,
+            }
+        })
+    }
+
+    const updated = await prisma.recipe.update({
+        where: {
+            id
+        }, data: {
+            categoryId: response.id,
+            name_recipe,
+            images_recipe
+        }
+    })
+
+
+    res.status(200).json(updated)
 });
 
 app.patch('/recipe/:id/nmr-eyes', async (req: any, res: any) => {
