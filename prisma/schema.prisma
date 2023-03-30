@@ -20,8 +20,8 @@ model Recipe {
   word_key      String[]
   prepareMode   String
   nmr_hearts    String[] @default([])
+  nmr_saved     String[] @default([])
   nmr_eyes      Int      @default(0)
-  nmr_saved     Int      @default(0)
   votes         String[]
   createdAt     DateTime @default(now())
 

@@ -267,7 +267,8 @@ app.patch('/recipe/:id/nmr-eyes', async (req: any, res: any) => {
     });
 
     res.status(204).json(recipe)
-})
+});
+
 
 app.patch('/recipe/:id/nmr-hearts/:idRecipe', async (req: any, res: any) => {
     const { id, idRecipe } = req.params;
@@ -294,7 +295,36 @@ app.patch('/recipe/:id/nmr-hearts/:idRecipe', async (req: any, res: any) => {
     });
 
     res.status(204).json({ msg: "update with success" })
-})
+});
+
+app.patch('/recipe/:id/nmr-saved/:idRecipe', async (req: any, res: any) => {
+    const { id, idRecipe } = req.params;
+
+
+    const { nmr_saved } = await prisma.recipe.findUniqueOrThrow({
+        where: {
+            id: idRecipe
+        },
+        select: {
+            nmr_saved: true
+        }
+    })
+
+    nmr_saved.push(id);
+
+    await prisma.recipe.update({
+        where: {
+            id: idRecipe
+        },
+        data: {
+            nmr_hearts,
+        }
+    });
+
+    res.status(204).json({ msg: "update with success" })
+});
+
+
 
 //VERIFY IF USER ALREADY VOTED 
 app.get('/recipe/:id/already-voted', async (req: any, res: any) => {
