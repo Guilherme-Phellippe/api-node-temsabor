@@ -39,7 +39,6 @@ app.post('/authenticate', async (req: any, res: any) => {
     })
 
     if (user) {
-
         const passwordMath = await compare(password, user.password);
 
         if (passwordMath) {

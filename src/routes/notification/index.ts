@@ -31,6 +31,8 @@ app.post("/notification/:userId/new/:notificationId", async (req: any, res:any) 
         }
     })
 
+    console.log(notification)
+
     res.status(201).json(notification)
 })
 
