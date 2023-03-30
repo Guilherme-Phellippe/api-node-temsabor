@@ -217,6 +217,22 @@ app.patch("/users/:id/change-password", async (req: any, res: any) => {
 
 });
 
+app.patch('/user/:id/nmr-saved/:recipeId', async (req: any, res: any) => {
+    const { id , recipeId} = req.params;
+
+    await prisma.user.update({
+        where: {
+            id
+        },
+        data: {
+            nmr_saved: [...recipeId]
+        }
+    });
+
+    res.status(204).json({ msg: "update with success" })
+});
+
+
 app.delete('/users/:id', async (req: any, res: any) => {
     const { id } = req.params;
 
