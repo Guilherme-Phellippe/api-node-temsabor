@@ -49,8 +49,8 @@ app.post('/category', async (req: any, res: any) => {
         res.status(200).json({msg: "update with success", suggest: update.suggestion})
     }else{
         await prisma.category.create({
-            data :{
-                name_category,
+            data: {
+                name_category: name_category,
             }
         })
         res.status(201).json({ msg: "create with success"})
