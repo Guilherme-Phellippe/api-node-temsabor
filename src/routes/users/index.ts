@@ -92,7 +92,6 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                     notification:{
                         select:{
                             _count: true,
-                            id: true,
                             title: true,
                             message: true,
                             isLink: true,
@@ -100,7 +99,9 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                         }
                     }, 
                     createdAt: true,
-                    read: true
+                    read: true,
+                    userId: true,
+                    notificationId: true
                 }
             },
             winner: {
