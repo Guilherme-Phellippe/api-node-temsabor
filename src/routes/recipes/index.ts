@@ -344,7 +344,7 @@ app.post('/upload-images', upload.single('image'), async (req: any, res: any) =>
 
 })
 
-app.delete('/recipes/:id', async (req: any, res: any) => {
+app.delete('/recipe/:id', async (req: any, res: any) => {
     const { id } = req.params
 
     const deleted = await prisma.recipe.delete({
