@@ -95,11 +95,12 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                             id: true,
                             title: true,
                             message: true,
-                            read: true,
-                            link: true,
+                            isLink: true,
                             createdAt: true
                         }
-                    }, createdAt: true
+                    }, 
+                    createdAt: true,
+                    read: true
                 }
             },
             winner: {
