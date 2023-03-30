@@ -220,12 +220,21 @@ app.patch("/users/:id/change-password", async (req: any, res: any) => {
 app.patch('/user/:id/nmr-saved/:recipeId', async (req: any, res: any) => {
     const { id , recipeId} = req.params;
 
+    const { nmr_saved } = await prisma.user.findUniqueOrThrow({
+        where: {
+            id
+        },
+        select:{
+            nmr_saved: true
+        }
+    });
+
     await prisma.user.update({
         where: {
             id
         },
         data: {
-            nmr_saved: [...recipeId]
+            nmr_saved: nmr_saved.concat(recipeId)
         }
     });
 
