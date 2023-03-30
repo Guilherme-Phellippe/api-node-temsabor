@@ -26,6 +26,7 @@ app.get('/categories', async (req: any, res: any) => {
 });
 
 app.post('/category', async (req: any, res: any) => {
+    console.log(req.body)
     const { name_category } = req.body
     
     const existCategory = await prisma.category.findFirst({
