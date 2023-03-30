@@ -344,20 +344,16 @@ app.post('/upload-images', upload.single('image'), async (req: any, res: any) =>
 
 })
 
-app.delete('/recipes/:id', (req: any, res: any) => {
-    res.status(200).json(
-        [
-            {
-                id: 0,
-                name_recipe: 'Receita de bolo de fubá ',
-            },
-            {
-                id: 0,
-                name_recipe: 'Receita de bolo de cenoura',
-            },
+app.delete('/recipes/:id', async (req: any, res: any) => {
+    const { id } = req.params
 
-        ]
-    )
+    const deleted = await prisma.recipe.delete({
+        where:{
+            id
+        }
+    })
+
+    res.status(200).json(deleted)
 });
 
 
