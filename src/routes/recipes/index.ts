@@ -64,6 +64,7 @@ app.get('/recipes', async (req: any, res: any) => {
 
     res.status(200).json(recipes)
 });
+
 app.get('/recipes/:categoryId/category', async (req: any, res: any) => {
     const { categoryId } = req.params
     const recipes = await prisma.recipe.findMany({
