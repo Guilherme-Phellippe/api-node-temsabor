@@ -74,8 +74,7 @@ model Notification {
   id        String   @id @default(uuid())
   title     String
   message   String
-  link      String   @default("")
-  read      Boolean  @default(false)
+  isLink    Boolean  @default(false)
   createdAt DateTime @default(now())
 
   NotificationUser NotificationUser[]
@@ -85,6 +84,7 @@ model NotificationUser {
   notificationId String
   userId         String
   createdAt      DateTime @default(now())
+  read           Boolean  @default(false)
 
   user         User         @relation(fields: [userId], references: [id])
   notification Notification @relation(fields: [notificationId], references: [id])
