@@ -347,13 +347,33 @@ app.post('/upload-images', upload.single('image'), async (req: any, res: any) =>
 app.delete('/recipe/:id', async (req: any, res: any) => {
     const { id } = req.params
 
-    const deleted = await prisma.recipe.delete({
-        where:{
-            id
-        }
-    })
+    try {
+        const deleted = await prisma.recipe.delete({
+            where: {
+                id
+            }
+        })
+        res.status(200).json(deleted)
 
-    res.status(200).json(deleted)
+    } catch {
+        const deleted = Promise.all([
+            prisma.comment.deleteMany({
+                where: {
+                    recipeId: id
+                }
+            }),
+            prisma.recipe.delete({
+                where: {
+                    id
+                }
+            })
+
+        ])
+
+        res.status(200).json(deleted)
+
+    }
+
 });
 
 
