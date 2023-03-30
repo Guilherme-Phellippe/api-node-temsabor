@@ -317,7 +317,7 @@ app.patch('/recipe/:id/nmr-saved/:idRecipe', async (req: any, res: any) => {
             id: idRecipe
         },
         data: {
-            nmr_hearts,
+            nmr_saved,
         }
     });
 
