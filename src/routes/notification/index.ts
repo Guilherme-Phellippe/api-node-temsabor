@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 app.patch("/notification/:userId/update-read/:notificationId", async (req: any, res:any)=>{
     const { userId, notificationId } = req.params;
 
-    const updated = await prisma.notificationUser.update({
+    await prisma.notificationUser.update({
         where:{
             userId_notificationId:{
                 notificationId, userId
@@ -20,5 +20,18 @@ app.patch("/notification/:userId/update-read/:notificationId", async (req: any, 
     res.status(200).json({menssage: "read notification updated with success"})
 })
 
+
+app.post("/notification/:userId/new/:notificationId", async (req: any, res:any) =>{
+    const { userId, notificationId } = req.params;
+
+    const notification = await prisma.notificationUser.create({
+        data:{
+            userId,
+            notificationId
+        }
+    })
+
+    res.status(201).json(notification)
+})
 
 export default app
