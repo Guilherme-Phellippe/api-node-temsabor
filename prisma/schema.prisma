@@ -71,12 +71,12 @@ model Category {
 }
 
 model Notification {
-  id      String  @id @default(uuid())
-  title   String
-  message String
-  type    Int
-  link    String  @default("")
-  read    Boolean @default(false)
+  id        String   @id @default(uuid())
+  title     String
+  message   String
+  link      String   @default("")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
 
   NotificationUser NotificationUser[]
 }

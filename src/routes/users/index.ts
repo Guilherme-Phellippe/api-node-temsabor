@@ -97,7 +97,7 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                             message: true,
                             read: true,
                             link: true,
-                            type: true
+                            createdAt: true
                         }
                     }
                 }
