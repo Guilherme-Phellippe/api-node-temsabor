@@ -255,14 +255,27 @@ app.delete('/users/:id', async (req: any, res: any) => {
         res.status(200).json({ message: "Deleted user without recipe with success" })
     } catch {
         try {
-            await Promise.all([
-                prisma.comment.deleteMany({
-                    where: {
-                        userId: id
+            const recipes = await prisma.recipe.findMany({
+                where:{
+                    userId: id
+                },
+                select:{
+                    id:true, 
+                }
+            });
+
+            for(let recipe of recipes){
+                await prisma.comment.deleteMany({
+                    where:{
+                        recipeId: recipe.id
                     }
-                }),
+                });
+            }
+            
+
+            await Promise.all([
                 prisma.recipe.deleteMany({
-                    where: {
+                    where:{
                         userId: id
                     }
                 }),
@@ -282,9 +295,10 @@ app.delete('/users/:id', async (req: any, res: any) => {
                     }
                 }),
             ])
+            
 
             res.status(200).json({ message: "Deleted user with success" })
-        } catch (error) {
+        } catch(error) {
             console.log(error)
             res.status(500).json({ message: "Failed to delete user in other tables" })
         }
