@@ -282,7 +282,8 @@ app.delete('/users/:id', async (req: any, res: any) => {
             });
 
             res.status(200).json({ message: "Deleted user with success" })
-        } catch {
+        } catch(error) {
+            console.log(error)
             res.status(500).json({ message: "Failed to delete user in other tables" })
         }
     }
