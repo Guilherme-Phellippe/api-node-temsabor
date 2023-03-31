@@ -55,7 +55,7 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
 
     const { id } = req.params
 
-    const user = await prisma.user.findUniqueOrThrow({
+    const user = await prisma.user.findUnique({
         where: {
             id
         },
@@ -114,22 +114,22 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
 
                 }
             }
-
-
         }
     });
 
-    const recipes = await prisma.recipe.findMany({
-        where: {
-            userId: user.id
-        }
-    });
+    if(user){
+        const recipes = await prisma.recipe.findMany({
+            where: {
+                userId: user.id
+            }
+        });
+    
+        user.nmr_eyes = recipes.reduce((total, item) => total + (item.nmr_eyes || 0), 0);
+        user.nmr_hearts = recipes.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0)
+    
+        res.status(200).json(user)
+    }else res.status(404).json({message: "User dont exist"})
 
-
-    user.nmr_eyes = recipes.reduce((total, item) => total + (item.nmr_eyes || 0), 0);
-    user.nmr_hearts = recipes.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0)
-
-    res.status(200).json(user)
 });
 
 //CREATE NEW USER
