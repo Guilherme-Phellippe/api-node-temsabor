@@ -252,7 +252,7 @@ app.delete('/users/:id', async (req: any, res: any) => {
             }
         });
 
-        res.status(200).json({ message: "Deleted user with success" })
+        res.status(200).json({ message: "Deleted user without recipe with success" })
     } catch {
         try{
             await Promise.all([
