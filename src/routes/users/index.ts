@@ -255,35 +255,36 @@ app.delete('/users/:id', async (req: any, res: any) => {
         res.status(200).json({ message: "Deleted user without recipe with success" })
     } catch {
         try {
-            //comment need be first because the recipe table has foreign in comment table
-            await prisma.comment.deleteMany({
-                where: {
-                    userId: id
-                }
-            });
-            await prisma.recipe.deleteMany({
-                where:{
-                    userId: id
-                }
-            });
-            await prisma.winner.deleteMany({
-                where: {
-                    userId: id
-                }
-            });
-            await prisma.notificationUser.deleteMany({
-                where: {
-                    userId: id
-                }
-            });
-            await prisma.user.delete({
-                where: {
-                    id
-                }
-            });
+            await Promise.all([
+                prisma.comment.deleteMany({
+                    where: {
+                        userId: id
+                    }
+                }),
+                prisma.recipe.deleteMany({
+                    where: {
+                        userId: id
+                    }
+                }),
+                prisma.winner.deleteMany({
+                    where: {
+                        userId: id
+                    }
+                }),
+                prisma.notificationUser.deleteMany({
+                    where: {
+                        userId: id
+                    }
+                }),
+                prisma.user.delete({
+                    where: {
+                        id
+                    }
+                }),
+            ])
 
             res.status(200).json({ message: "Deleted user with success" })
-        } catch(error) {
+        } catch (error) {
             console.log(error)
             res.status(500).json({ message: "Failed to delete user in other tables" })
         }
