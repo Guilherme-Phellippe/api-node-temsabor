@@ -254,38 +254,32 @@ app.delete('/users/:id', async (req: any, res: any) => {
 
         res.status(200).json({ message: "Deleted user without recipe with success" })
     } catch {
-        try {
-            await prisma.recipe.deleteMany({
-                where: {
-                    userId: id
-                }
-            });
-            await prisma.comment.deleteMany({
-                where: {
-                    userId: id
-                }
-            });
-            await prisma.winner.deleteMany({
-                where: {
-                    userId: id
-                }
-            });
-            await prisma.notificationUser.deleteMany({
-                where: {
-                    userId: id
-                }
-            });
-            await prisma.user.delete({
-                where: {
-                    id
-                }
-            });
-
-            res.status(200).json({ message: "Deleted user with success" })
-        } catch(error) {
-            console.log(error)
-            res.status(500).json({ message: "Failed to delete user in other tables" })
-        }
+        await prisma.recipe.deleteMany({
+            where: {
+                userId: id
+            }
+        }).catch(error => console.log({ error_recipe: error }))
+        await prisma.comment.deleteMany({
+            where: {
+                userId: id
+            }
+        }).catch(error => console.log({ error_comment: error }))
+        await prisma.winner.deleteMany({
+            where: {
+                userId: id
+            }
+        }).catch(error => console.log({ error_winner: error }))
+        await prisma.notificationUser.deleteMany({
+            where: {
+                userId: id
+            }
+        }).catch(error => console.log({ error_notification: error }))
+        await prisma.user.delete({
+            where: {
+                id
+            }
+        }).catch(error => console.log({ error_user: error }))
+        res.status(200).json({ message: "Deleted user with success" })
     }
 });
 
