@@ -84,17 +84,17 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                     nmr_saved: true
                 }
             },
-            notificationUser:{
-                select:{
-                    notification:{
-                        select:{
+            notificationUser: {
+                select: {
+                    notification: {
+                        select: {
                             _count: true,
                             title: true,
                             message: true,
                             isLink: true,
                             createdAt: true
                         }
-                    }, 
+                    },
                     createdAt: true,
                     read: true,
                     userId: true,
@@ -218,13 +218,13 @@ app.patch("/users/:id/change-password", async (req: any, res: any) => {
 });
 
 app.patch('/user/:id/nmr-saved/:recipeId', async (req: any, res: any) => {
-    const { id , recipeId} = req.params;
+    const { id, recipeId } = req.params;
 
     const { nmr_saved } = await prisma.user.findUniqueOrThrow({
         where: {
             id
         },
-        select:{
+        select: {
             nmr_saved: true
         }
     });
@@ -254,38 +254,36 @@ app.delete('/users/:id', async (req: any, res: any) => {
 
         res.status(200).json({ message: "Deleted user without recipe with success" })
     } catch {
-        try{
-            await Promise.all([
-                prisma.recipe.deleteMany({
-                    where: {
-                        userId: id
-                    }
-                }),
-                prisma.comment.deleteMany({
-                    where:{
-                        userId: id
-                    }
-                }),
-                prisma.winner.deleteMany({
-                    where:{
-                        userId: id
-                    }
-                }),
-                prisma.notificationUser.deleteMany({
-                    where: {
-                        userId: id
-                    }
-                }),
-                prisma.user.delete({
-                    where: {
-                        id
-                    }
-                }),
-            ]).catch(error => console.log(error))
+        try {
+            await prisma.recipe.deleteMany({
+                where: {
+                    userId: id
+                }
+            });
+            await prisma.comment.deleteMany({
+                where: {
+                    userId: id
+                }
+            });
+            await prisma.winner.deleteMany({
+                where: {
+                    userId: id
+                }
+            });
+            await prisma.notificationUser.deleteMany({
+                where: {
+                    userId: id
+                }
+            });
+            await prisma.user.delete({
+                where: {
+                    id
+                }
+            });
 
             res.status(200).json({ message: "Deleted user with success" })
-        }catch{
-            res.status(500).json({message: "Failed to delete user in other tables"})
+        } catch {
+            res.status(500).json({ message: "Failed to delete user in other tables" })
         }
     }
 });
