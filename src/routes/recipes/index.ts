@@ -124,6 +124,7 @@ app.get('/recipes/:categoryId/category', async (req: any, res: any) => {
 
 app.get('/recipe/:id', async (req: any, res: any) => {
     const id = req.params.id
+    
     const recipe = await prisma.recipe.findUniqueOrThrow(
         {
             where: { id },
