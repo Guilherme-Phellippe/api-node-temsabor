@@ -333,24 +333,24 @@ app.patch('/recipe/:id/nmr-saved/:idRecipe', async (req: any, res: any) => {
     res.status(204).json({ msg: "update with success" })
 });
 
-app.patch('/recipe/:id/votes/:idRecipe', async (req: any, res: any) => {
-    const { id, idRecipe } = req.params;
+app.patch('/recipe/:userId/votes/:recipeId', async (req: any, res: any) => {
+    const { userId, recipeId } = req.params;
 
 
     const { votes } = await prisma.recipe.findUniqueOrThrow({
         where: {
-            id: idRecipe
+            id: recipeId
         },
         select: {
             votes: true
         }
     })
 
-    votes.push(id);
+    votes.push(userId);
 
     await prisma.recipe.update({
         where: {
-            id: idRecipe
+            id: recipeId
         },
         data: {
             votes,
