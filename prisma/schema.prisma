@@ -17,7 +17,7 @@ model Recipe {
   time          Int
   portion       Int
   ing           String[]
-  stuffing_ing  Json     @default("{}")
+  stuffing_ing  String[] @default([])
   word_key      String[]
   prepareMode   String
   nmr_hearts    String[] @default([])
