@@ -22,6 +22,7 @@ app.get('/recipes', async (req: any, res: any) => {
             time: true,
             portion: true,
             ing: true,
+            stuffing_ing: true, 
             word_key: true,
             prepareMode: true,
             nmr_hearts: true,
@@ -79,6 +80,7 @@ app.get('/recipes/:categoryId/category', async (req: any, res: any) => {
             time: true,
             portion: true,
             ing: true,
+            stuffing_ing: true,
             word_key: true,
             prepareMode: true,
             nmr_hearts: true,
@@ -136,6 +138,7 @@ app.get('/recipe/:id', async (req: any, res: any) => {
                 time: true,
                 portion: true,
                 ing: true,
+                stuffing_ing: true,
                 word_key: true,
                 prepareMode: true,
                 nmr_hearts: true,
@@ -207,6 +210,7 @@ app.post('/recipe', async (req: any, res: any) => {
             time: recipeInfo.time,
             portion: recipeInfo.portion,
             ing: recipeInfo.ing,
+            stuffing_ing: recipeInfo.stuffing_ing,
             word_key: recipeInfo.word_key,
             prepareMode: recipeInfo.prepareMode,
             userId: recipeInfo.userId,
@@ -333,24 +337,24 @@ app.patch('/recipe/:id/nmr-saved/:idRecipe', async (req: any, res: any) => {
     res.status(204).json({ msg: "update with success" })
 });
 
-app.patch('/recipe/:id/votes/:idRecipe', async (req: any, res: any) => {
-    const { id, idRecipe } = req.params;
+app.patch('/recipe/:userId/votes/:recipeId', async (req: any, res: any) => {
+    const { userId, recipeId } = req.params;
 
 
     const { votes } = await prisma.recipe.findUniqueOrThrow({
         where: {
-            id: idRecipe
+            id: recipeId
         },
         select: {
             votes: true
         }
     })
 
-    votes.push(id);
+    votes.push(userId);
 
     await prisma.recipe.update({
         where: {
-            id: idRecipe
+            id: recipeId
         },
         data: {
             votes,
