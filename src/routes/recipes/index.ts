@@ -214,7 +214,7 @@ app.post('/recipe', async (req: any, res: any) => {
             word_key: recipeInfo.word_key,
             prepareMode: recipeInfo.prepareMode,
             userId: recipeInfo.userId,
-            categoryId: recipeInfo.categoryId
+            categoryId: recipeInfo.categoryIdex
         }
     })
 
