@@ -206,7 +206,7 @@ app.post('/recipe', async (req: any, res: any) => {
         data: {
             name_recipe: recipeInfo.name_recipe,
             images_recipe: recipeInfo.images_recipe,
-            videos_recipe: recipeInfo.videos_recipe,
+            videos_recipe: recipeInfo.videos_recipe || [],
             time: recipeInfo.time,
             portion: recipeInfo.portion,
             ing: recipeInfo.ing,
@@ -214,7 +214,7 @@ app.post('/recipe', async (req: any, res: any) => {
             word_key: recipeInfo.word_key,
             prepareMode: recipeInfo.prepareMode,
             userId: recipeInfo.userId,
-            categoryId: recipeInfo.categoryIdex
+            categoryId: recipeInfo.categoryId,
         }
     })
 
