@@ -149,9 +149,11 @@ app.post('/users', async (req: any, res: any) => {
         const passwordHash = await hash(body.password, 8);
         const user = await prisma.user.create({
             data: {
+                id: body?.id,
                 name: body.name,
                 email: body.email,
                 password: passwordHash,
+                photo: body?.photo
             }
         });
 
