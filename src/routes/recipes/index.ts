@@ -22,7 +22,7 @@ app.get('/recipes', async (req: any, res: any) => {
             time: true,
             portion: true,
             ing: true,
-            stuffing_ing: true, 
+            stuffing_ing: true,
             word_key: true,
             prepareMode: true,
             nmr_hearts: true,
@@ -126,7 +126,7 @@ app.get('/recipes/:categoryId/category', async (req: any, res: any) => {
 
 app.get('/recipe/:id', async (req: any, res: any) => {
     const id = req.params.id
-    
+
     const recipe = await prisma.recipe.findUniqueOrThrow(
         {
             where: { id },
@@ -296,18 +296,21 @@ app.patch('/recipe/:id/nmr-hearts/:idRecipe', async (req: any, res: any) => {
         }
     })
 
-    nmr_hearts.push(id);
-
-    await prisma.recipe.update({
-        where: {
-            id: idRecipe
-        },
-        data: {
-            nmr_hearts,
-        }
-    });
-
-    res.status(204).json({ msg: "update with success" })
+    const hasHeart = nmr_hearts.find(heart => heart.includes(id));
+    
+    if(hasHeart){
+        nmr_hearts.push(id);
+        await prisma.recipe.update({
+            where: {
+                id: idRecipe
+            },
+            data: {
+                nmr_hearts,
+            }
+        });
+    
+        res.status(204).json({ msg: "update with success" })
+    } else res.status(400).json({ msg: "Recipe already saved" })
 });
 
 app.patch('/recipe/:id/nmr-saved/:idRecipe', async (req: any, res: any) => {
@@ -363,7 +366,6 @@ app.patch('/recipe/:userId/votes/:recipeId', async (req: any, res: any) => {
 
     res.status(204).json({ msg: "update with success" })
 });
-
 
 //VERIFY IF USER ALREADY VOTED 
 app.get('/recipe/:id/already-voted', async (req: any, res: any) => {
@@ -423,7 +425,7 @@ app.delete('/recipe/:id', async (req: any, res: any) => {
                 id
             }
         })
-        if(deleted) res.status(200).json({ message : "Recipe deleted with success"})
+        if (deleted) res.status(200).json({ message: "Recipe deleted with success" })
 
     } catch {
         Promise.all([
@@ -438,8 +440,8 @@ app.delete('/recipe/:id', async (req: any, res: any) => {
                 }
             })
 
-        ]).catch(error => res.status(500).json({error}))
-        res.status(200).json({ message : "Recipe deleted with success"})
+        ]).catch(error => res.status(500).json({ error }))
+        res.status(200).json({ message: "Recipe deleted with success" })
     }
 });
 
