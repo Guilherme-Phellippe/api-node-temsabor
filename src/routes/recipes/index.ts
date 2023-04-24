@@ -296,9 +296,9 @@ app.patch('/recipe/:id/nmr-hearts/:idRecipe', async (req: any, res: any) => {
         }
     })
 
-    const hasHeart = nmr_hearts.find(heart => heart.includes(id));
+    const hasRecipe = nmr_hearts.find(heart => heart.includes(id));
     
-    if(hasHeart){
+    if(!hasRecipe){
         nmr_hearts.push(id);
         await prisma.recipe.update({
             where: {
@@ -326,18 +326,22 @@ app.patch('/recipe/:id/nmr-saved/:idRecipe', async (req: any, res: any) => {
         }
     })
 
-    nmr_saved.push(id);
+    const hasRecipe = nmr_saved.find(heart => heart.includes(id));
+    
+    if(!hasRecipe){
+        nmr_saved.push(id);
+        await prisma.recipe.update({
+            where: {
+                id: idRecipe
+            },
+            data: {
+                nmr_saved,
+            }
+        });
+    
+        res.status(204).json({ msg: "update with success" })
+    } else res.status(400).json({ msg: "Recipe already saved" })
 
-    await prisma.recipe.update({
-        where: {
-            id: idRecipe
-        },
-        data: {
-            nmr_saved,
-        }
-    });
-
-    res.status(204).json({ msg: "update with success" })
 });
 
 app.patch('/recipe/:userId/votes/:recipeId', async (req: any, res: any) => {
