@@ -338,10 +338,8 @@ app.patch('/recipe/:id/nmr-saved/:idRecipe', async (req: any, res: any) => {
                 nmr_saved,
             }
         });
-    
         res.status(204).json({ msg: "update with success" })
     } else res.status(400).json({ msg: "Recipe already saved" })
-
 });
 
 app.patch('/recipe/:userId/votes/:recipeId', async (req: any, res: any) => {

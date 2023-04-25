@@ -32,6 +32,23 @@ model Recipe {
   comments Comment[]
 }
 
+model Tip {
+  id              String   @id @default(uuid())
+  userId          String
+  name_tip        String
+  description_tip String
+  votes           String[]
+  word_key        String[]
+  nmr_hearts      String[] @default([])
+  nmr_saved       String[] @default([])
+  nmr_eyes        Int      @default(0)
+  createdAt       DateTime @default(now())
+
+  comments Comment[]
+
+  User User @relation(fields: [userId], references: [id])
+}
+
 model Comment {
   id        String   @id @default(uuid())
   recipeId  String
@@ -40,8 +57,10 @@ model Comment {
   answer    Json[]
   createdAt DateTime @default(now())
 
-  recipe Recipe @relation(fields: [recipeId], references: [id])
-  user   User   @relation(fields: [userId], references: [id])
+  recipe Recipe  @relation(fields: [recipeId], references: [id])
+  user   User    @relation(fields: [userId], references: [id])
+  Tip    Tip?    @relation(fields: [tipId], references: [id])
+  tipId  String?
 }
 
 model User {
@@ -60,6 +79,7 @@ model User {
   recipe           Recipe[]
   comments         Comment[]
   notificationUser NotificationUser[]
+  tips             Tip[]
 }
 
 model Category {
