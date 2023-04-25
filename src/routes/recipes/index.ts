@@ -7,9 +7,8 @@ import multer from 'multer';
 import sharp from 'sharp'
 
 const app = Router();
-
-const upload = multer({ storage: multer.memoryStorage() });
 const prisma = new PrismaClient();
+const upload = multer({ storage: multer.memoryStorage() });
 
 
 app.get('/recipes', async (req: any, res: any) => {
