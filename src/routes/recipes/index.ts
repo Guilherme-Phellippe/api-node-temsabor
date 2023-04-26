@@ -12,6 +12,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 
 app.get('/recipes', async (req: any, res: any) => {
+
     const recipes = await prisma.recipe.findMany({
         select: {
             id: true,
@@ -62,7 +63,7 @@ app.get('/recipes', async (req: any, res: any) => {
         },
     });
 
-    res.status(200).json(recipes)
+    res.status(200).json(recipes);
 });
 
 app.get('/recipes/:categoryId/category', async (req: any, res: any) => {
@@ -263,109 +264,6 @@ app.put('/recipe/:id', async (req: any, res: any) => {
 
 
     res.status(200).json(updated)
-});
-
-app.patch('/recipe/:id/nmr-eyes', async (req: any, res: any) => {
-    const { id } = req.params;
-
-    const recipe = await prisma.recipe.update({
-        where: {
-            id
-        },
-        data: {
-            nmr_eyes: {
-                increment: 1
-            }
-        }
-    });
-
-    res.status(204).json(recipe)
-});
-
-app.patch('/recipe/:id/nmr-hearts/:idRecipe', async (req: any, res: any) => {
-    const { id, idRecipe } = req.params;
-
-
-    const { nmr_hearts } = await prisma.recipe.findUniqueOrThrow({
-        where: {
-            id: idRecipe
-        },
-        select: {
-            nmr_hearts: true
-        }
-    })
-
-    const hasRecipe = nmr_hearts.find(heart => heart.includes(id));
-    
-    if(!hasRecipe){
-        nmr_hearts.push(id);
-        await prisma.recipe.update({
-            where: {
-                id: idRecipe
-            },
-            data: {
-                nmr_hearts,
-            }
-        });
-    
-        res.status(204).json({ msg: "update with success" })
-    } else res.status(400).json({ msg: "Recipe already saved" })
-});
-
-app.patch('/recipe/:id/nmr-saved/:idRecipe', async (req: any, res: any) => {
-    const { id, idRecipe } = req.params;
-
-
-    const { nmr_saved } = await prisma.recipe.findUniqueOrThrow({
-        where: {
-            id: idRecipe
-        },
-        select: {
-            nmr_saved: true
-        }
-    })
-
-    const hasRecipe = nmr_saved.find(heart => heart.includes(id));
-    
-    if(!hasRecipe){
-        nmr_saved.push(id);
-        await prisma.recipe.update({
-            where: {
-                id: idRecipe
-            },
-            data: {
-                nmr_saved,
-            }
-        });
-        res.status(204).json({ msg: "update with success" })
-    } else res.status(400).json({ msg: "Recipe already saved" })
-});
-
-app.patch('/recipe/:userId/votes/:recipeId', async (req: any, res: any) => {
-    const { userId, recipeId } = req.params;
-
-
-    const { votes } = await prisma.recipe.findUniqueOrThrow({
-        where: {
-            id: recipeId
-        },
-        select: {
-            votes: true
-        }
-    })
-
-    votes.push(userId);
-
-    await prisma.recipe.update({
-        where: {
-            id: recipeId
-        },
-        data: {
-            votes,
-        }
-    });
-
-    res.status(204).json({ msg: "update with success" })
 });
 
 //VERIFY IF USER ALREADY VOTED 
