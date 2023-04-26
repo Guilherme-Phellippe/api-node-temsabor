@@ -193,8 +193,16 @@ app.get('/recipe/:id', async (req: any, res: any) => {
         }
     });
 
-    recipe.user.nmr_eyes = recipes.reduce((total, item) => total + (item.nmr_eyes || 0), 0);
-    recipe.user.nmr_hearts = recipes.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0)
+    const tips = await prisma.tip.findMany({
+        where: {
+            userId: recipe.user.id
+        }
+    })
+
+    const data = [...recipes, ...tips]
+
+    recipe.user.nmr_eyes = data.reduce((total, item) => total + (item.nmr_eyes || 0), 0);
+    recipe.user.nmr_hearts = data.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0)
 
     res.status(200).json(recipe)
 });
