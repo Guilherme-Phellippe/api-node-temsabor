@@ -4,6 +4,9 @@ const route = Router();
 import recipes from "./routes/recipes/index.js"
 route.use(recipes);
 
+import tips from "./routes/tips/index.js"
+route.use(tips);
+
 import feeds from "./routes/feeds/index.js"
 route.use(feeds);
 
