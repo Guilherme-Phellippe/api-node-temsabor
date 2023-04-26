@@ -100,6 +100,145 @@ app.get('/feeds', async (req: any, res: any) => {
     res.status(200).json(feed);
 });
 
+// get unique Feed 
+app.get('/feed/:id', async (req: any, res: any) => {
+    const id = req.params.id
+    var recipe;
+
+    const response = await prisma.recipe.findUnique(
+        {
+            where: { id },
+            select: {
+                id: true,
+                images_recipe: true,
+                videos_recipe: true,
+                name_recipe: true,
+                time: true,
+                portion: true,
+                ing: true,
+                stuffing_ing: true,
+                word_key: true,
+                prepareMode: true,
+                nmr_hearts: true,
+                nmr_eyes: true,
+                nmr_saved: true,
+                votes: true,
+                createdAt: true,
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        photo: true,
+                        nmr_eyes: true,
+                        nmr_hearts: true,
+                        admin: true,
+                        _count: {
+                            select: {
+                                recipe: true
+                            }
+                        }
+                    }
+                },
+                category: {
+                    select: {
+                        id: true,
+                        name_category: true
+                    }
+                },
+                comments: {
+                    select: {
+                        id: true,
+                        comment: true,
+                        answer: true,
+                        createdAt: true,
+                        user: {
+                            select: {
+                                id: true,
+                                name: true,
+                                photo: true
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    )
+
+    if(response) recipe = response
+    else {
+        const response = await prisma.tip.findUniqueOrThrow(
+            {
+                where: { id },
+                select: {
+                    id: true,
+                    name_tip: true,
+                    description_tip: true,
+                    word_key: true,
+                    nmr_hearts: true,
+                    nmr_eyes: true,
+                    nmr_saved: true,
+                    votes: true,
+                    createdAt: true,
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            photo: true,
+                            nmr_eyes: true,
+                            nmr_hearts: true,
+                            admin: true,
+                            _count: {
+                                select: {
+                                    recipe: true
+                                }
+                            }
+                        }
+                    },
+                    comments: {
+                        select: {
+                            id: true,
+                            comment: true,
+                            answer: true,
+                            createdAt: true,
+                            user: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    photo: true
+                                }
+                            }
+                        }
+                    }
+    
+                }
+            }
+        );
+
+        recipe = response
+    }
+
+    const recipes = await prisma.recipe.findMany({
+        where: {
+            userId: id
+        }
+    });
+    const tips = await prisma.tip.findMany({
+        where: {
+            userId: id
+        }
+    });
+
+    const feeds = [...recipes, ...tips];
+
+    recipe.user.nmr_eyes = feeds.reduce((total, item) => total + (item.nmr_eyes || 0), 0);
+    recipe.user.nmr_hearts = feeds.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0)
+
+    res.status(200).json(recipe)
+    
+});
+
+
 //update nmr eyes
 app.patch('/feed/:id/nmr-eyes', async (req: any, res: any) => {
     const { id } = req.params;
