@@ -37,6 +37,7 @@ model Tip {
   userId          String
   name_tip        String
   description_tip String
+  images          Json[]   @default([])
   votes           String[]
   word_key        String[]
   nmr_hearts      String[] @default([])

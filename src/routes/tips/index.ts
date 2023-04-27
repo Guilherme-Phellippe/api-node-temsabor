@@ -13,6 +13,7 @@ app.get('/tips', async (req: any, res: any) => {
             id: true,
             name_tip: true,
             description_tip:true,
+            images: true,
             word_key: true,
             nmr_hearts: true,
             nmr_eyes: true,
@@ -128,6 +129,7 @@ app.post('/tip', async (req: any, res: any) => {
             userId: tipInfo.userId,
             name_tip: tipInfo.name_tip,
             description_tip: tipInfo.description_tip,
+            images: tipInfo.images,
             word_key: tipInfo.word_key,
         }
     })
