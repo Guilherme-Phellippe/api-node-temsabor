@@ -60,6 +60,7 @@ app.get('/tip/:id', async (req: any, res: any) => {
                 id: true,
                 name_tip:true,
                 description_tip:true,
+                images:true,
                 word_key: true,
                 nmr_hearts: true,
                 nmr_eyes: true,
