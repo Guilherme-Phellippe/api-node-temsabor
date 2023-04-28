@@ -98,23 +98,21 @@ app.get('/feeds', async (req: any, res: any) => {
     });
 
     function organizeFeed(feed: any) {
-        //change between type table (tips, recipes)
-        const tips = feed.filter((item: any) => item.name_tip && item)
-        const recipes = feed.filter((item: any) => item.name_recipe && item)
-
         const result = [];
         let index = 0;
-        while (tips.length || recipes.length) {
+        while (feed.length) {
             if (index === 0) {
-                result.push(recipes.splice(Math.floor(Math.random() * recipes.length), 1)[0])
-            } else if (index % 3 === 0 && tips.length) {
-                tips.sort((a: any, b: any)=> moment(a.createdAt).diff(moment(b.createdAt)))
-                const firstRecipe = tips.splice(0,1)[0] 
+                const randomIndex = Math.floor(Math.random() * feed.length)
+                const selectedFeed = feed.splice(randomIndex, 1)[0]
+                result.push(selectedFeed)
+            } else if (index % 3 === 0 && feed.length) {
+                feed.sort((a: any, b: any)=> moment(b.createdAt).diff(moment(a.createdAt)))
+                const firstRecipe = feed.splice(0,1)[0] 
                 result.push(firstRecipe);
-            } else if (recipes.length) {
-                if(index % 2 === 0) recipes.sort((a: any, b: any)=> b.nmr_hearts.length - a.nmr_hearts.length)
-                else recipes.sort((a: any, b: any)=> b.comments.length - a.comments.length)
-                const firstRecipe = recipes.splice(0,1)[0] 
+            } else if (feed.length) {
+                if(index % 2 === 0) feed.sort((a: any, b: any)=> b.nmr_hearts.length - a.nmr_hearts.length)
+                else feed.sort((a: any, b: any)=> b.comments.length - a.comments.length)
+                const firstRecipe = feed.splice(0,1)[0] 
                 result.push(firstRecipe);
             }
             index++
