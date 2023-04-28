@@ -68,6 +68,20 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
             nmr_saved: true,
             nmr_eyes: true,
             nmr_hearts: true,
+            tips: {
+                select: {
+                    name_tip: true,
+                    description_tip: true,
+                    images: true,
+                    nmr_eyes: true,
+                    nmr_hearts: true,
+                    nmr_saved: true,
+                    votes:true,
+                    word_key: true,
+                    createdAt:true,
+                    comments: true,
+                }
+            },
             recipe: {
                 select: {
                     id: true,
@@ -117,18 +131,18 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
         }
     });
 
-    if(user){
+    if (user) {
         const recipes = await prisma.recipe.findMany({
             where: {
                 userId: user.id
             }
         });
-    
+
         user.nmr_eyes = recipes.reduce((total, item) => total + (item.nmr_eyes || 0), 0);
         user.nmr_hearts = recipes.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0)
-    
+
         res.status(200).json(user)
-    }else res.status(404).json({message: "User dont exist"})
+    } else res.status(404).json({ message: "User dont exist" })
 
 });
 
@@ -258,26 +272,26 @@ app.delete('/users/:id', async (req: any, res: any) => {
     } catch {
         try {
             const recipes = await prisma.recipe.findMany({
-                where:{
+                where: {
                     userId: id
                 },
-                select:{
-                    id:true, 
+                select: {
+                    id: true,
                 }
             });
 
-            for(let recipe of recipes){
+            for (let recipe of recipes) {
                 await prisma.comment.deleteMany({
-                    where:{
+                    where: {
                         recipeId: recipe.id
                     }
                 });
             }
-            
+
 
             await Promise.all([
                 prisma.recipe.deleteMany({
-                    where:{
+                    where: {
                         userId: id
                     }
                 }),
@@ -297,10 +311,10 @@ app.delete('/users/:id', async (req: any, res: any) => {
                     }
                 }),
             ])
-            
+
 
             res.status(200).json({ message: "Deleted user with success" })
-        } catch(error) {
+        } catch (error) {
             console.log(error)
             res.status(500).json({ message: "Failed to delete user in other tables" })
         }
