@@ -106,13 +106,16 @@ app.get('/feeds', async (req: any, res: any) => {
                 const selectedFeed = feed.splice(randomIndex, 1)[0]
                 result.push(selectedFeed)
             } else if (index % 3 === 0 && feed.length) {
-                feed.sort((a: any, b: any)=> moment(b.createdAt).diff(moment(a.createdAt)))
-                const firstRecipe = feed.splice(0,1)[0] 
+                feed.sort((a: any, b: any) => {
+                    if(b.comments.length !== a.comments.length) return b.comments.length - a.comments.length
+                    else return b.nmr_hearts.length - a.nmr_hearts.length
+                })
+                
+                const firstRecipe = feed.splice(0, 1)[0]
                 result.push(firstRecipe);
             } else if (feed.length) {
-                if(index % 2 === 0) feed.sort((a: any, b: any)=> b.nmr_hearts.length - a.nmr_hearts.length)
-                else feed.sort((a: any, b: any)=> b.comments.length - a.comments.length)
-                const firstRecipe = feed.splice(0,1)[0] 
+                feed.sort((a: any, b: any) => moment(b.createdAt).diff(moment(a.createdAt)))
+                const firstRecipe = feed.splice(0, 1)[0]
                 result.push(firstRecipe);
             }
             index++
