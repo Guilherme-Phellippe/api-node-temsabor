@@ -108,7 +108,7 @@ app.get('/feeds', async (req: any, res: any) => {
             if (index === 0) {
                 result.push(recipes.splice(Math.floor(Math.random() * recipes.length), 1)[0])
             } else if (index % 3 === 0 && tips.length) {
-                tips.sort((a: any, b: any)=> moment(b.createdAt).diff(moment(a.createdAt)))
+                tips.sort((a: any, b: any)=> moment(a.createdAt).diff(moment(b.createdAt)))
                 const firstRecipe = tips.splice(0,1)[0] 
                 result.push(firstRecipe);
             } else if (recipes.length) {
