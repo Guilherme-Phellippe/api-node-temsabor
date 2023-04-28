@@ -321,6 +321,4 @@ app.delete('/users/:id', async (req: any, res: any) => {
     }
 });
 
-
-
 export default app

@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { PrismaClient } from "@prisma/client"
+import moment from "moment";
 
 
 const app = Router()
@@ -96,7 +97,32 @@ app.get('/feeds', async (req: any, res: any) => {
         },
     });
 
-    const feed = [...tips, ...recipes]
+    function organizeFeed(feed: any) {
+        //organize by date (most recent firsr)
+        feed.sort((a: any, b: any) => moment(b.createdAt).diff(moment(a.createdAt)));
+
+        //organize by hearts (most hearts first)
+        feed.sort((a: any, b: any) => b.nmr_hearts.length - a.nmr_hearts.length);
+
+        //organize by comments (most hearts first)
+        feed.sort((a: any, b: any) => b.comments.length - a.comments.length);
+
+        //change between type table (tips, recipes)
+        const tips = feed.filter((item: any) => item.name_tip && item)
+        const recipes = feed.filter((item: any) => item.name_recipe && item)
+
+        const result = [];
+        let index = 0;
+        while(tips.length || recipes.length){
+            if(index % 2 === 0 && tips.length) result.push(tips.shift());
+            else if(recipes.length) result.push(recipes.shift());
+            index++
+        }
+
+        return result
+    }
+
+    const feed = organizeFeed([...tips, ...recipes])
 
     res.status(200).json(feed);
 });
@@ -166,7 +192,7 @@ app.get('/feed/:id', async (req: any, res: any) => {
         }
     )
 
-    if(response) recipe = response
+    if (response) recipe = response
     else {
         const response = await prisma.tip.findUniqueOrThrow(
             {
@@ -212,7 +238,7 @@ app.get('/feed/:id', async (req: any, res: any) => {
                             }
                         }
                     }
-    
+
                 }
             }
         );
@@ -237,7 +263,7 @@ app.get('/feed/:id', async (req: any, res: any) => {
     recipe.user.nmr_hearts = feeds.reduce((total, recipe) => total + (recipe.nmr_hearts.length || 0), 0)
 
     res.status(200).json(recipe)
-    
+
 });
 
 
@@ -252,7 +278,7 @@ app.patch('/feed/:id/nmr-eyes', async (req: any, res: any) => {
         }
     });
 
-    if(response){
+    if (response) {
         data = await prisma.recipe.update({
             where: {
                 id
@@ -263,7 +289,7 @@ app.patch('/feed/:id/nmr-eyes', async (req: any, res: any) => {
                 }
             }
         });
-    } else{
+    } else {
         data = await prisma.tip.update({
             where: {
                 id
