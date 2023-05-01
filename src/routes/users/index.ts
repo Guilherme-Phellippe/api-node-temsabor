@@ -89,9 +89,16 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                     images_recipe: true,
                     category: {
                         select: {
+                            id: true,
                             name_category: true
                         }
                     },
+                    portion: true,
+                    time: true,
+                    stuffing_ing: true,
+                    prepareMode: true,
+                    videos_recipe: true,
+                    ing: true,
                     createdAt: true,
                     nmr_eyes: true,
                     nmr_hearts: true,
