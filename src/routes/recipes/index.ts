@@ -236,9 +236,9 @@ app.put('/recipe/:id', async (req: any, res: any) => {
         name_recipe,
         images_recipe,
         ing,
-        portion,
         stuffing_ing,
         prepareMode,
+        portion,
         time,
         videos_recipe,
     } = req.body;
@@ -273,14 +273,15 @@ app.put('/recipe/:id', async (req: any, res: any) => {
     const updated = await prisma.recipe.update({
         where: {
             id
-        }, data: {
+        },
+        data: {
             categoryId: response.id,
             name_recipe,
             images_recipe,
             ing,
-            portion,
             stuffing_ing,
             prepareMode,
+            portion,
             time,
             videos_recipe,
 
