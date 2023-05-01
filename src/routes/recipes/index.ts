@@ -231,7 +231,17 @@ app.post('/recipe', async (req: any, res: any) => {
 
 app.put('/recipe/:id', async (req: any, res: any) => {
     const { id } = req.params
-    const { name_category, name_recipe, images_recipe } = req.body;
+    const {
+        name_category,
+        name_recipe,
+        images_recipe,
+        ing,
+        portion,
+        stuffing_ing,
+        prepareMode,
+        time,
+        videos_recipe,
+    } = req.body;
 
     const existCategory = await prisma.category.findFirst({
         where: {
@@ -266,7 +276,14 @@ app.put('/recipe/:id', async (req: any, res: any) => {
         }, data: {
             categoryId: response.id,
             name_recipe,
-            images_recipe
+            images_recipe,
+            ing,
+            portion,
+            stuffing_ing,
+            prepareMode,
+            time,
+            videos_recipe,
+
         }
     })
 
