@@ -8,7 +8,10 @@ const prisma = new PrismaClient();
 
 app.post('/comment', async (req: any, res: any) => {
 
-    const isRecipeTable = req.body.type || true
+    console.log(req.body.isRecipe)
+    const isRecipeTable = req.body.isRecipe || true;
+    console.log(isRecipeTable)
+
 
     const comment = await prisma.comment.create({
         data: {
