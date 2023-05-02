@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 app.post('/comment', async (req: any, res: any) => {
 
     console.log(req.body.isRecipe)
-    const isRecipeTable = req.body.isRecipe || true;
+    const isRecipeTable = req.body.isRecipe;
     console.log(isRecipeTable)
 
 
