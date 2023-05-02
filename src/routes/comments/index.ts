@@ -7,17 +7,13 @@ const app = Router();
 const prisma = new PrismaClient();
 
 app.post('/comment', async (req: any, res: any) => {
-
-    console.log(req.body.isRecipe)
     const isRecipeTable = req.body.isRecipe;
-    console.log(isRecipeTable)
-
 
     const comment = await prisma.comment.create({
         data: {
             userId: req.body.userId,
-            recipeId: isRecipeTable ? req.body.recipeId : null,
-            tipId: !isRecipeTable ? req.body.tipId : null,
+            recipeId: isRecipeTable ? req.body.id : null,
+            tipId: !isRecipeTable ? req.body.id : null,
             comment: req.body.comment,
         }
     });
