@@ -292,6 +292,71 @@ app.put('/recipe/:id', async (req: any, res: any) => {
     res.status(200).json(updated)
 });
 
+//update nmr votes
+app.patch('/recipe/:userId/votes/:recipeId', async (req: any, res: any) => {
+    const { userId, recipeId } = req.params;
+
+    const response = await prisma.recipe.findUnique({
+        where: {
+            id: recipeId
+        },
+        select: {
+            votes: true
+        }
+    })
+
+    if (response) {
+        const { votes } = response;
+
+        const hasVote = votes.find(save => save.includes(userId));
+
+        if (!hasVote) {
+
+            votes.push(userId);
+
+            await prisma.recipe.update({
+                where: {
+                    id: recipeId
+                },
+                data: {
+                    votes,
+                }
+            });
+
+            res.status(201).json({ msg: "update with success" });
+
+        } else res.status(400).json({ msg: "recipe already has vote" })
+
+    } else {
+        const { votes } = await prisma.tip.findUniqueOrThrow({
+            where: {
+                id: recipeId
+            },
+            select: {
+                votes: true
+            }
+        })
+
+        const hasVote = votes.find(vote => vote.includes(userId));
+
+        if (!hasVote) {
+
+            votes.push(userId);
+
+            await prisma.tip.update({
+                where: {
+                    id: recipeId
+                },
+                data: {
+                    votes,
+                }
+            });
+
+            res.status(201).json({ msg: "update with success" })
+        } else res.status(400).json({ msg: "Tip already has loved" })
+    }
+});
+
 //VERIFY IF USER ALREADY VOTED 
 app.get('/recipe/:id/already-voted', async (req: any, res: any) => {
 
