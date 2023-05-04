@@ -387,7 +387,7 @@ app.patch('/feed/:id/nmr-saved/:recipeId', async (req: any, res: any) => {
 
     const response = await prisma.recipe.update({
         where: {
-            id
+            id: recipeId
         },
         data: {
             nmr_saved: nmr_saved.concat(id)
