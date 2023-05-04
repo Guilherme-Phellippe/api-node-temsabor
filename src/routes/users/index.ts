@@ -261,7 +261,7 @@ app.patch('/user/:id/nmr-saved/:recipeId', async (req: any, res: any) => {
         }
     });
 
-    res.status(204).json({ msg: "update with success" })
+    res.status(200).json({ msg: "update with success" })
 });
 
 
