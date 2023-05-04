@@ -268,7 +268,6 @@ app.get('/feed/:id', async (req: any, res: any) => {
 
 });
 
-
 //update nmr eyes
 app.patch('/feed/:id/nmr-eyes', async (req: any, res: any) => {
     const { id } = req.params;
@@ -373,6 +372,34 @@ app.patch('/feed/:userId/nmr-hearts/:recipeId', async (req: any, res: any) => {
     }
 });
 
+//update nmr save
+app.patch('/feed/:id/nmr-saved/:recipeId', async (req: any, res: any) => {
+    const { id, recipeId } = req.params;
+
+    const { nmr_saved } = await prisma.recipe.findUniqueOrThrow({
+        where: {
+            id: recipeId
+        },
+        select: {
+            nmr_saved: true
+        }
+    });
+
+    const response = await prisma.recipe.update({
+        where: {
+            id
+        },
+        data: {
+            nmr_saved: nmr_saved.concat(id)
+        }
+    });
+
+    response ?
+    res.status(204).json({ msg: "update with success" })
+    :
+    res.status(500).json({ msg: "error at update" })
+});
 
 
 export default app
+
