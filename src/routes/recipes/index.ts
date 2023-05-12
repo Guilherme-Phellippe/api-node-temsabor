@@ -376,7 +376,7 @@ app.get('/recipe/:id/already-voted', async (req: any, res: any) => {
 });
 
 app.post('/upload-images', upload.single('image'), async (req: any, res: any) => {
-    const sizes = [800, 450, 220, 80];
+    const sizes = [800, 450, 220, 100];
     const namesSizes = ["big", "medium", "small", "thumb"];
     const images: { [key: string]: string } = {};
 

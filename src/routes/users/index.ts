@@ -30,16 +30,21 @@ app.get('/users', async (req: any, res: any) => {
 });
 
 app.post('/authenticate', async (req: any, res: any) => {
-    const { email, password } = req.body;
+    const { email, password, socialLogin } = req.body;
 
     const user = await prisma.user.findFirst({
         where: { email },
     })
 
     if (user) {
-        const passwordMath = await compare(password, user.password);
+        let userMath;
+        socialLogin ?
+            userMath = !/[a-zA-Z]/.test(user.id)
+            :
+            userMath = await compare(password, user.password)
 
-        if (passwordMath) {
+        console.log(true)
+        if (userMath) {
             const token = sign({}, "gui34/35julia38/39", {
                 subject: user.id,
                 expiresIn: "48h",
@@ -76,9 +81,9 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
                     nmr_eyes: true,
                     nmr_hearts: true,
                     nmr_saved: true,
-                    votes:true,
+                    votes: true,
                     word_key: true,
-                    createdAt:true,
+                    createdAt: true,
                     comments: true,
                 }
             },
@@ -155,32 +160,33 @@ app.get('/authenticate-login/:id', ensureAuthenticated, async (req: any, res: an
 
 //CREATE NEW USER
 app.post('/users', async (req: any, res: any) => {
-    const body = req.body;
+    const { email, password, id, name, photo } = req.body;
 
 
     //VERIFY IF USER ALREADY EXIST
     const userAlreadyExist = await prisma.user.findFirst({
         where: {
-            email: body.email
+            email
         }
     })
 
     if (!userAlreadyExist) {
         //CREATE USER
-        const passwordHash = await hash(body.password, 8);
+        const passwordHash = password ? await hash(password, 8) : "";
+
         const user = await prisma.user.create({
             data: {
-                id: body?.id,
-                name: body.name,
-                email: body.email,
+                id,
+                name,
+                email,
+                photo,
                 password: passwordHash,
-                photo: body?.photo
             }
         });
 
         const token = sign({}, "gui34/35julia38/39", {
             subject: user.id,
-            expiresIn: "48h"
+            expiresIn: "96h"
         });
 
         res.status(200).json({ token, id: user.id })
