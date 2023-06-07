@@ -31,6 +31,7 @@ app.get("/notification-whats", (req, res) => {
 
     console.log(res)
 
+    res.send("foi")
 })
 
 
