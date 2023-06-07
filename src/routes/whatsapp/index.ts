@@ -6,6 +6,7 @@ const app = Router();
 
 app.post("/send-recipe", async (req: any, res: any) => {
     const messageBody = req.body
+    const token = process.env.TOKEN_WHATSAPP
 
     try {
         const response = await axios.post(
@@ -14,7 +15,7 @@ app.post("/send-recipe", async (req: any, res: any) => {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer EAAIcM33Jzm0BAGXIRePjusQjJfJ14jZArt7ZB7J0i5HDOA5wpRFf4WXueMj13yoJmk7g2KWdfj5FActqlMsbGyg8ZChDOI4GzDWA3hlKaxcg2xBlxx8J7JLut10BSo2KMGXrKCMxmCHp22lvlh7BzEkK4ZAiPnwfGSCxCtQPC5yupC5ZArEifZBnb7wgSB85gmNoZBv8mYlZAw6Us2q7qzKs7K27mAXPuZA0ZD',
+                    'Authorization': `Bearer ${token}`,
                 }
             }
         );
