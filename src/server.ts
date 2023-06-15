@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3333;
 app.use(cors({
     origin: ["https://temsabor.blog", "http://localhost:3000", "http://127.0.0.0:3000/"]
 }));
+
 app.use(express.json())
 app.use(route)
 

@@ -25,8 +25,5 @@ route.use(prizes);
 import notifications from "./routes/notification/index.js"
 route.use(notifications)
 
-import whatsapp from "./routes/whatsapp/index.js"
-route.use(whatsapp)
-
 
 export default route;
