@@ -43,7 +43,6 @@ app.post('/authenticate', async (req: any, res: any) => {
             :
             userMath = await compare(password, user.password)
 
-        console.log(true)
         if (userMath) {
             const token = sign({}, "gui34/35julia38/39", {
                 subject: user.id,
