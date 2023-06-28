@@ -22,7 +22,7 @@ app.post("/create-short-link", async (req, res) => {
     // so we create the variable 'getOnlyKey', if it has a '/' ,
     // we only get the key name before the '/'
     const getOnlyKey = key.indexOf("/") >= 0 ? key.indexOf("/") : key.length
-    var formatKey = key.substring(0, getOnlyKey).replace("%20", "-").replace(" ", "")
+    var formatKey = key.substring(0, getOnlyKey).replace(/%20/g, "-").replace(/\s/g, "-");
     //on the next two lines we declare two variables, a count to count how many times 
     //we try to create a unique key and isFounded variable to know when we find a unique key
     var count = 0;
