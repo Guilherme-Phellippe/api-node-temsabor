@@ -25,5 +25,8 @@ route.use(prizes);
 import notifications from "./routes/notification/index.js"
 route.use(notifications)
 
+import linkShortener from "./routes/link-shortener/index.js"
+route.use(linkShortener)
+
 
 export default route;
