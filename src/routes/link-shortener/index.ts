@@ -63,18 +63,9 @@ app.post("/create-short-link", async (req, res) => {
             }
             //this line we add one more number
             count++
-        }
+        } 
     }
-    //now we know that key is unique and we create a new short link in database
-    const response = await prisma.link_shortener.create({
-        data: {
-            key: formatKey,
-            short_link: "https://ver-receita.cloud/" + formatKey,
-            origin_link
-        }
-    })
 
-    res.status(200).json(response);
 })
 
 export default app;
