@@ -142,7 +142,6 @@ model Prize {
 model link_shortener {
   id          String   @id @default(uuid())
   key         String   @unique
-  short_link  String   @unique
   origin_link String
   createdAt   DateTime @default(now())
 }
