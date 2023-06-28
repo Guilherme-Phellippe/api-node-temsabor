@@ -74,7 +74,7 @@ app.post("/create-short-link", async (req, res) => {
         }
     })
 
-    res.status(200).json(response)
+    res.status(200).json(response);
 })
 
 export default app;
