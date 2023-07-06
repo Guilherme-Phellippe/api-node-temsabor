@@ -6,13 +6,14 @@
   "main": "build/src/server.js",
   "scripts": {
     "start": "node .",
-    "dev": "tsnd src/server.ts",
+    "dev": "tsc && tsnd src/server.ts",
     "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "api": "^6.0.0",
     "axios": "^1.3.4",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",

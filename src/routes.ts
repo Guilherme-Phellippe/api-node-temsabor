@@ -28,5 +28,11 @@ route.use(notifications)
 import linkShortener from "./routes/link-shortener/index.js"
 route.use(linkShortener)
 
+// import metaPixel from "./routes/meta-pixel/index.js"
+// route.use(metaPixel)
+
+import notificationPush from "./routes/notification-push/index.js"
+route.use(notificationPush);
+
 
 export default route;
