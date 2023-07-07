@@ -22,7 +22,7 @@ route.use(users);
 import prizes from "./routes/prizes/index.js"
 route.use(prizes);
 
-import notifications from "./routes/notification/index.js"
+import notifications from "./routes/notification-app/index.js"
 route.use(notifications)
 
 import linkShortener from "./routes/link-shortener/index.js"

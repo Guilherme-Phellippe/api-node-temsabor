@@ -146,3 +146,50 @@ model link_shortener {
   origin_link String
   createdAt   DateTime @default(now())
 }
+
+model User_data_notification {
+  id                String   @id @default(uuid())
+  userId            String   @default("")
+  email             String   @unique
+  can_send_email    Boolean  @default(true)
+  cell_phone        String   @unique
+  can_send_sms      Boolean  @default(true)
+  is_whatsapp       Boolean  @default(true)
+  can_send_whatsapp Boolean  @default(true)
+  createdAt         DateTime @default(now())
+}
+
+// model Pixel_tem_sabor {
+//   id                          String @id @default(uuid())
+//   view_home                   Int    @default(0)
+//   view_recipe                 Int    @default(0)
+//   view_tip                    Int    @default(0)
+//   view_about                  Int    @default(0)
+//   view_category               Int    @default(0)
+//   view_poll                   Int    @default(0)
+//   view_panel_user             Int    @default(0)
+//   view_create_recipe          Int    @default(0)
+//   comments                    Int    @default(0)
+//   click_see_more_recipe       Int    @default(0)
+//   click_recipe_similar        Int    @default(0)
+//   print_recipe                Int    @default(0)
+//   share_facebook              Int    @default(0)
+//   share_twitter               Int    @default(0)
+//   share_whatsapp              Int    @default(0)
+//   share_telegram              Int    @default(0)
+//   search_recipe               Int    @default(0)
+//   visit_tiktok                Int    @default(0)
+//   visit_facebook              Int    @default(0)
+//   visit_youtube               Int    @default(0)
+//   visit_instagram             Int    @default(0)
+//   visit_whatsapp              Int    @default(0)
+//   user_from_facebook_free     Int    @default(0)
+//   user_from_facebook_pay      Int    @default(0)
+//   user_from_google_free       Int    @default(0)
+//   user_from_google_pay        Int    @default(0)
+//   user_from_email             Int    @default(0)
+//   user_from_sms               Int    @default(0)
+//   user_from_notification_push Int    @default(0)
+//   user_from_group_whatsapp    Int    @default(0)
+//   user_from_private_whatsapp  Int    @default(0)
+// }
