@@ -73,8 +73,8 @@ app.post("/user-data-push/register", async (req, res)=>{
     try {
         const response = await prisma.user_data_notification.create({
             data:{
-                email: userData ?? "",
-                cell_phone: userData ?? "",
+                email: userData?.email ?? "",
+                cell_phone: userData?.cell_phone ?? "",
             }
         })
 
