@@ -150,9 +150,9 @@ model link_shortener {
 model User_data_notification {
   id                String   @id @default(uuid())
   userId            String   @default("")
-  email             String   @unique
+  email             String   @default("")
   can_send_email    Boolean  @default(true)
-  cell_phone        String   @unique
+  cell_phone        String   @default("")
   can_send_sms      Boolean  @default(true)
   is_whatsapp       Boolean  @default(true)
   can_send_whatsapp Boolean  @default(true)
