@@ -82,7 +82,11 @@ app.post("/user-data-push/register", async (req, res) => {
         }
     });
 
-    const existData = allDataPush.find(data => data?.email === userData.email || data?.cell_phone === userData.cell_phone)
+    const existData = allDataPush.find(data => 
+        (data?.email !== "" && data?.email === userData.email) ||
+        (data?.cell_phone !== userData.cell_phone && data?.cell_phone === userData.cell_phone)
+    )
+    
     if(existData){
         res.status(400).json({ Error: "The data already exist!" })
         throw new Error("The data already exist!")
