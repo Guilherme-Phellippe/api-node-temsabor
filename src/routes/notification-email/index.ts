@@ -15,7 +15,7 @@ const app = Router();
 const prisma = new PrismaClient();
 
 app.post("/email/send-recipe", async (req, res) => {
-    const { title, link, ingredients } = req.body
+    const { title, link, ingredients, image } = req.body
     const emails = await prisma.user_data_notification.findMany({
         select:{
             email: true,
@@ -28,12 +28,13 @@ app.post("/email/send-recipe", async (req, res) => {
         return
     }
 
-    const ing = ingredients.map((ing: string) => `<li>${ing}</li>`).join("");
+    const ing = ingredients.map((ing: string) => `<li style='margin: 4px 0;width:100%'>${ing}</li>`).join("");
     const html = `
         <div style="width: 100%;height: 100%; display: grid; place-items: center;">
-            <h1 style="text-align: center; font-size: 22px; margin: 30px 0;">${title}</h1>
-            <h2 style="text-align: left; font-size: 16px; margin: 30px 0;">INGREDIENTES:</h2>
-            <ul style="margin: 0 50px;">
+            <img src=${image} alt="Imagem da receita">
+            <h1 style="text-align: center; font-size: 22px; margin: 20px 0;">${title}</h1>
+            <h2 style="text-align: left; font-size: 16px; margin-bottom: 30px;">INGREDIENTES:</h2>
+            <ul style="margin-bottom: 20px; width:100%;display:flex;justify-content:center">
                 ${ing}
              </ul>
             <a href=${link} style="padding: 5px; background-color: #ff6a28; color: white; text-align:center; border-radius: 20px; text-decoration: none;">VER RECEITA</a>
