@@ -103,7 +103,7 @@ app.post("/email/send-recipe", async (req, res) => {
             <ul style="width:100%;display:flex;flex-direction: column;">
                 ${ing}
              </ul>
-            <p style="text-align: left; font-size: 16px; margin: 30px 0;">Clique no botão abaixo para ver a receita completa em nossa rede social.</p>
+            <p style="text-align: left; font-size: 16px; margin: 20px 0;">Clique no botão abaixo para ver a receita completa em nossa rede social.</p>
             <div style="width: 100%;display: flex; justify-content: center;margin-top:50px;">
                 <a 
                     href=${link} 
