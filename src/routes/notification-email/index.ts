@@ -100,7 +100,7 @@ app.post("/email/send-recipe", async (req, res) => {
             </div>
             <h1 style="text-align: center; font-size: 22px; margin: 20px 0;">${title}</h1>
             <h2 style="text-align: left; font-size: 18px; margin-bottom: 30px;">INGREDIENTES:</h2>
-            <ul style="width:100%;display:flex;">
+            <ul style="width:100%;display:flex;flex-direction: column;">
                 ${ing}
              </ul>
             <p style="text-align: left; font-size: 16px; margin: 30px 0;">Clique no botão abaixo para ver a receita completa em nossa rede social.</p>
