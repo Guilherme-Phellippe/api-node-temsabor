@@ -20,8 +20,6 @@ app.post("/email/send-recipe", (req, res) => {
         return
     }
 
-
-    const emailsToString = emails.join(", ");
     console.log(ingredients)
     const ing = ingredients.map((ing: string) => `<li>${ing}</li>`).join("");
     console.log(ing)
@@ -36,14 +34,17 @@ app.post("/email/send-recipe", (req, res) => {
         </div>
     `
 
-    const info = transporter.sendMail({
-        from: 'receitas.temsabor@gmail.com', // sender address
-        to: emailsToString, // list of receivers
-        subject: title, // Subject line
-        html, // html body
-    }, (err: any) => res.status(400).json(err));
+
+    emails.forEach((email: string) => {
+        transporter.sendMail({
+            from: 'receitas.temsabor@gmail.com', // sender address
+            to: email, // list of receivers
+            subject: title, // Subject line
+            html, // html body
+        }, (err: any) => res.status(400).json(err));
+    });
    
-    res.status(201).json({ success: true, info})
+    res.status(201).json({ success: true})
 })
 
 
