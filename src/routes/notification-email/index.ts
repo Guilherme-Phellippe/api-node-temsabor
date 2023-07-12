@@ -89,15 +89,30 @@ app.post("/email/send-recipe", async (req, res) => {
             can_send_email: true
         }
     })
-    
+
     //CHECK IF CLIENT TO SEND INGREDIENTS LIKE ARRAY
     if (typeof ingredients !== "object") {
         res.status(500).json({ Error: "The ingredients isnt array type" })
         return
     }
+    //REMOVE THE ACCENTS
+    const defaultAccents = [
+        { regex: /[\u00E0-\u00E5]/g, substituto: 'a' },
+        { regex: /[\u00E8-\u00EB]/g, substituto: 'e' },
+        { regex: /[\u00EC-\u00EF]/g, substituto: 'i' },
+        { regex: /[\u00F2-\u00F6]/g, substituto: 'o' },
+        { regex: /[\u00F9-\u00FC]/g, substituto: 'u' },
+        { regex: /[\u00E7]/g, substituto: 'c' }
+    ]
+    var newLink = link
+    for (let i = 0; i < defaultAccents.length; i++) {
+        newLink = newLink.replace(defaultAccents[i].regex, defaultAccents[i].substituto);
+    }
+    console.log(newLink)
+
     //TRANSFORM INGREDIENTS FROM ARRAY TO STRING WITH <LI>
     const ing = ingredients.map((ing: string) => `<li style='margin: 4px 0;width:100%'>${ing}</li>`).join("");
-   //BUILDING THE HTML TO SEND TO EMAIL
+    //BUILDING THE HTML TO SEND TO EMAIL
     const html = `
         <div style="width: 100vw;height: 100%; display: flex;flex-direction: column; justify-content: center;align-items: center;">
             <div style="width: 100%;display: flex; justify-content: center;">
@@ -111,7 +126,7 @@ app.post("/email/send-recipe", async (req, res) => {
             <p style="text-align: left; font-size: 16px; margin: 20px 0;">Clique no botão abaixo para ver a receita completa em nossa rede social.</p>
             <div style="width: 100%;display: flex; justify-content: center;margin-top:50px;">
                 <a 
-                    href=${link} 
+                    href=${newLink} 
                     style="padding: 15px 25px;margin:0 auto;font-size: 22px;font-weight:bold; background-color: #ff6a28; color: #fff; text-align:center; border-radius: 20px; text-decoration: none;"
                 >VER RECEITA COMPLETA</a>
             </div>
