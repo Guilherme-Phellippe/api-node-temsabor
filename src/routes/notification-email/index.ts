@@ -36,13 +36,13 @@ app.post("/email/send-recipe", async (req, res) => {
             </div>
             <h1 style="text-align: center; font-size: 22px; margin: 20px 0;">${title}</h1>
             <h2 style="text-align: left; font-size: 16px; margin-bottom: 30px;">INGREDIENTES:</h2>
-            <ul style="margin-bottom: 20px; width:100%;display:flex;justify-content:center">
+            <ul style="margin-bottom: 20px; width:100%;display:flex;">
                 ${ing}
              </ul>
-            <div style="width: 100%;display: flex; justify-content: center;margin-top:20px">
+            <div style="width: 100%;display: flex; justify-content: center;margin-top:30px;">
                 <a 
                     href=${link} 
-                    style="padding: 15px 25px;font-size: 22px;font-weight:bold; background-color: #ff6a28; color: white; text-align:center; border-radius: 20px; text-decoration: none;"
+                    style="padding: 15px 25px;margin:0 auto;font-size: 22px;font-weight:bold; background-color: #ff6a28; color: white; text-align:center; border-radius: 20px; text-decoration: none;"
                 >VER RECEITA</a>
             </div>
         </div>
