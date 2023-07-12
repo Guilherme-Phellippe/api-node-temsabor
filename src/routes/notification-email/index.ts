@@ -102,7 +102,8 @@ app.post("/email/send-recipe", async (req, res) => {
         { regex: /[\u00EC-\u00EF]/g, substituto: 'i' },
         { regex: /[\u00F2-\u00F6]/g, substituto: 'o' },
         { regex: /[\u00F9-\u00FC]/g, substituto: 'u' },
-        { regex: /[\u00E7]/g, substituto: 'c' }
+        { regex: /[\u00E7]/g, substituto: 'c' },
+        { regex: "ç", substituto: 'c' },
     ]
     var newLink = link
     for (let i = 0; i < defaultAccents.length; i++) {
