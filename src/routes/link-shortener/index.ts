@@ -28,10 +28,12 @@ app.post("/create-short-link", async (req, res) => {
         { regex: /[\u00E7]/g, substituto: 'c' },
         { regex: "ç", substituto: 'c' },
     ]
+    console.log("KEY:", key)
     var newKey: string = key;
     for (let n = 0; n < defaultAccent.length; n++) {
         newKey = key.replace(defaultAccent[n].regex, defaultAccent[n].substituto)
     }
+    console.log("New key:",newKey)
     // in this line we only get key name, we know that it can have a '/' after the name, 
     // so we create the variable 'getOnlyKey', if it has a '/' ,
     // we only get the key name before the '/'
@@ -39,7 +41,6 @@ app.post("/create-short-link", async (req, res) => {
     var formatKey = newKey.substring(0, getOnlyKey).replace(/%20/g, "-").replace(/\s/g, "-");
     //on the next two lines we declare two variables, a count to count how many times 
     //we try to create a unique key and isFounded variable to know when we find a unique key
-    console.log(formatKey)
     var count = 0;
     var isFounded: boolean = false;
     //this is a 'while' loop that will only stop when we find the unique key
