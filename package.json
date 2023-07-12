@@ -23,6 +23,7 @@
     "jsonwebtoken": "^9.0.0",
     "moment": "^2.29.4",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.3",
     "sharp": "^0.31.3"
   },
   "devDependencies": {
@@ -33,6 +34,7 @@
     "@types/jsonwebtoken": "^9.0.1",
     "@types/multer": "^1.4.7",
     "@types/node": "^18.15.2",
+    "@types/nodemailer": "^6.4.8",
     "@types/sharp": "^0.31.1",
     "bcryptjs": "^2.4.3",
     "prisma": "^4.16.2",

@@ -34,5 +34,8 @@ route.use(linkShortener)
 import notificationPush from "./routes/notification-push/index.js"
 route.use(notificationPush);
 
+import notificationEmail from "./routes/notification-email/index.js"
+route.use(notificationEmail);
+
 
 export default route;
