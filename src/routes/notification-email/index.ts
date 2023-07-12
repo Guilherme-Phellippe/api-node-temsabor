@@ -28,9 +28,7 @@ app.post("/email/send-recipe", async (req, res) => {
         return
     }
 
-    console.log(ingredients)
     const ing = ingredients.map((ing: string) => `<li>${ing}</li>`).join("");
-    console.log(ing)
     const html = `
         <div style="width: 100%;height: 100%; display: grid; place-items: center;">
             <h1 style="text-align: center; font-size: 40px; margin: 0 10px;">${title}</h1>
@@ -45,7 +43,7 @@ app.post("/email/send-recipe", async (req, res) => {
 
     emails.forEach((data: any) => {
         console.log(data.email, data.can_send_email)
-        data.can_send_email &&
+        data.can_send_email && data.email !== "" &&
         transporter.sendMail({
             from: 'receitas.temsabor@gmail.com', // sender address
             to: data.email, // list of receivers
