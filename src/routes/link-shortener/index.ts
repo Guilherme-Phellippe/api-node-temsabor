@@ -28,12 +28,10 @@ app.post("/create-short-link", async (req, res) => {
         { regex: /[\u00E7]/g, substituto: 'c' },
         { regex: "%C3%A7", substituto: 'c' },
     ]
-    console.log("KEY:", key)
     var newKey: string = key;
     for (let n = 0; n < defaultAccent.length; n++) {
         newKey = key.replace(defaultAccent[n].regex, defaultAccent[n].substituto)
     }
-    console.log("New key:",newKey)
     // in this line we only get key name, we know that it can have a '/' after the name, 
     // so we create the variable 'getOnlyKey', if it has a '/' ,
     // we only get the key name before the '/'

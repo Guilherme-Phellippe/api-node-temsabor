@@ -103,14 +103,12 @@ app.post("/email/send-recipe", async (req, res) => {
         { regex: /[\u00F2-\u00F6]/g, substituto: 'o' },
         { regex: /[\u00F9-\u00FC]/g, substituto: 'u' },
         { regex: /[\u00E7]/g, substituto: 'c' },
-        { regex: "ç", substituto: 'c' },
+        { regex: "%C3%A7", substituto: 'c' }
     ]
     var newLink = link
     for (let i = 0; i < defaultAccents.length; i++) {
         newLink = newLink.replace(defaultAccents[i].regex, defaultAccents[i].substituto);
     }
-    console.log(newLink)
-
     //TRANSFORM INGREDIENTS FROM ARRAY TO STRING WITH <LI>
     const ing = ingredients.map((ing: string) => `<li style='margin: 4px 0;width:100%'>${ing}</li>`).join("");
     //BUILDING THE HTML TO SEND TO EMAIL
