@@ -22,6 +22,7 @@ app.post("/email/send-recipe", (req, res) => {
 
 
     const emailsToString = emails.join(", ");
+    console.log(ingredients)
     const ing = ingredients.map((ing: string) => `<li>${ing}</li>`).join("");
     console.log(ing)
     const html = `
@@ -40,10 +41,9 @@ app.post("/email/send-recipe", (req, res) => {
         to: emailsToString, // list of receivers
         subject: title, // Subject line
         html, // html body
-    }, (err: any) => {
-        if (!err) res.status(201).json(info)
-        else res.status(400).json(err)
-    });
+    }, (err: any) => res.status(400).json(err));
+   
+    res.status(201).json({ success: true, info})
 })
 
 
