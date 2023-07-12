@@ -30,9 +30,9 @@ app.post("/email/send-recipe", async (req, res) => {
 
     const ing = ingredients.map((ing: string) => `<li style='margin: 4px 0;width:100%'>${ing}</li>`).join("");
     const html = `
-        <div style="width: 100%;height: 100%; display: flex; justify-content: center;align-items: center;">
+        <div style="width: 100%;height: 100%; display: flex;flex-direction: column; justify-content: center;align-items: center;">
             <div style="width: 100%;display: grid;place-items: center;">
-                img src=${image} alt="Imagem da receita" style="width: 80%;object-fit: cover;">
+                <img src=${image} alt="Imagem da receita" style="width: 80%;object-fit: cover;">
             </div>
             <h1 style="text-align: center; font-size: 22px; margin: 20px 0;">${title}</h1>
             <h2 style="text-align: left; font-size: 16px; margin-bottom: 30px;">INGREDIENTES:</h2>
