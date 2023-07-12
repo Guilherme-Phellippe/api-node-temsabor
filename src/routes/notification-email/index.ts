@@ -17,7 +17,7 @@ const prisma = new PrismaClient();
 app.post("/email/send-recipe", async (req, res) => {
     const { title, link, ingredients, image } = req.body
     const emails = await prisma.user_data_notification.findMany({
-        select:{
+        select: {
             email: true,
             can_send_email: true
         }
@@ -31,7 +31,7 @@ app.post("/email/send-recipe", async (req, res) => {
     const ing = ingredients.map((ing: string) => `<li style='margin: 4px 0;width:100%'>${ing}</li>`).join("");
     const html = `
         <div style="width: 100%;height: 100%; display: flex;flex-direction: column; justify-content: center;align-items: center;">
-            <div style="width: 100%;display: grid;place-items: center;">
+            <div style="width: 100%;display: flex; justify-content: center;">
                 <img src=${image} alt="Imagem da receita" style="width: 80%;object-fit: cover;">
             </div>
             <h1 style="text-align: center; font-size: 22px; margin: 20px 0;">${title}</h1>
@@ -39,7 +39,12 @@ app.post("/email/send-recipe", async (req, res) => {
             <ul style="margin-bottom: 20px; width:100%;display:flex;justify-content:center">
                 ${ing}
              </ul>
-            <a href=${link} style="padding: 5px; background-color: #ff6a28; color: white; text-align:center; border-radius: 20px; text-decoration: none;">VER RECEITA</a>
+            <div style="width: 100%;display: flex; justify-content: center;">
+                <a 
+                    href=${link} 
+                    style="padding: 10px 15px; background-color: #ff6a28; color: white; text-align:center; border-radius: 20px; text-decoration: none;"
+                >VER RECEITA</a>
+            </div>
         </div>
     `
 
@@ -47,15 +52,15 @@ app.post("/email/send-recipe", async (req, res) => {
     emails.forEach((data: any) => {
         console.log(data.email, data.can_send_email)
         data.can_send_email && data.email !== "" &&
-        transporter.sendMail({
-            from: 'receitas.temsabor@gmail.com', // sender address
-            to: data.email, // list of receivers
-            subject: title, // Subject line
-            html, // html body
-        }, (err: any) => res.status(400).json(err));
+            transporter.sendMail({
+                from: 'receitas.temsabor@gmail.com', // sender address
+                to: data.email, // list of receivers
+                subject: title, // Subject line
+                html, // html body
+            }, (err: any) => res.status(400).json(err));
     });
-   
-    res.status(201).json({ success: true})
+
+    res.status(201).json({ success: true })
 })
 
 
