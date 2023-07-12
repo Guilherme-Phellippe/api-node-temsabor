@@ -3,6 +3,7 @@ import { Router } from "express"
 
 const transporter = createTransport({
     service: "gmail",
+    secure: true,
     auth: {
         user: "receitas.temsabor@gmail.com",
         pass: process.env.GMAIL_PASSWORD
