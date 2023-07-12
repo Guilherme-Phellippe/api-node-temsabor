@@ -11,7 +11,7 @@ const transporter = createTransport({
 
 const app = Router();
 
-app.post("/email/send-recipe", async (req, res) => {
+app.post("/email/send-recipe", (req, res) => {
     console.log(req.body)
     const { title , htmlContent, emails} = req.body
     
@@ -23,7 +23,9 @@ app.post("/email/send-recipe", async (req, res) => {
 
     const emailsToString = emails.join(", ");
 
-    const info = await transporter.sendMail({
+    console.log(emailsToString)
+
+    const info = transporter.sendMail({
         from: 'receitas.temsabor@gmail.com', // sender address
         to: emailsToString, // list of receivers
         subject: title, // Subject line
