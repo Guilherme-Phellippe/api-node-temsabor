@@ -1,4 +1,5 @@
 import { createTransport } from "nodemailer"
+import { PrismaClient } from "@prisma/client";
 import { Router } from "express"
 
 const transporter = createTransport({
@@ -11,12 +12,19 @@ const transporter = createTransport({
 })
 
 const app = Router();
+const prisma = new PrismaClient();
 
-app.post("/email/send-recipe", (req, res) => {
-    const { title, link, ingredients, emails } = req.body
+app.post("/email/send-recipe", async (req, res) => {
+    const { title, link, ingredients } = req.body
+    const emails = await prisma.user_data_notification.findMany({
+        select:{
+            email: true,
+            can_send_email: true
+        }
+    })
 
-    if (typeof emails !== "object" || typeof ingredients !== "object") {
-        res.status(500).json({ Error: "The email or ingredients isnt array type" })
+    if (typeof ingredients !== "object") {
+        res.status(500).json({ Error: "The ingredients isnt array type" })
         return
     }
 
@@ -35,10 +43,12 @@ app.post("/email/send-recipe", (req, res) => {
     `
 
 
-    emails.forEach((email: string) => {
+    emails.forEach((data: any) => {
+        console.log(data.email, data.can_send_email)
+        data.can_send_email &&
         transporter.sendMail({
             from: 'receitas.temsabor@gmail.com', // sender address
-            to: email, // list of receivers
+            to: data.email, // list of receivers
             subject: title, // Subject line
             html, // html body
         }, (err: any) => res.status(400).json(err));
