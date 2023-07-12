@@ -13,6 +13,70 @@ const transporter = createTransport({
 
 const app = Router();
 const prisma = new PrismaClient();
+/**
+ * GET ALL USER DATA 
+ */
+app.get("/user-data-push/data", async (req, res) => {
+    try {
+        const data = await prisma.user_data_notification.findMany({
+            select: {
+                email: true,
+                can_send_email: true,
+                cell_phone: true,
+                is_whatsapp: true,
+                can_send_sms: true,
+                can_send_whatsapp: true,
+            }
+        });
+        res.status(200).json(data)
+    } catch (err) {
+        console.log(err)
+        res.status(400).json(err)
+    }
+})
+/**
+ * REGISTER A USER DATA 
+ */
+app.post("/user-data-push/register", async (req, res) => {
+    interface userDataTypes {
+        email: string,
+        cell_phone: string
+    }
+
+    const userData: userDataTypes = req.body
+
+    const allDataPush = await prisma.user_data_notification.findMany({
+        select: {
+            email: true,
+            cell_phone: true,
+        }
+    });
+
+    const existData = allDataPush.find(data =>
+        (data?.email !== "" && data?.email === userData.email) ||
+        (data?.cell_phone !== userData.cell_phone && data?.cell_phone === userData.cell_phone)
+    )
+
+    if (existData) {
+        res.status(400).json({ Error: "The data already exist!" })
+        throw new Error("The data already exist!")
+    }
+
+    try {
+        const response = await prisma.user_data_notification.create({
+            data: {
+                email: userData?.email || "",
+                cell_phone: userData?.cell_phone || "",
+            }
+        })
+
+        res.status(201).json(response)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json(error)
+    }
+})
+
 
 app.post("/email/send-recipe", async (req, res) => {
     const { title, link, ingredients, image } = req.body
@@ -32,7 +96,7 @@ app.post("/email/send-recipe", async (req, res) => {
     const html = `
         <div style="width: 100vw;height: 100%; display: flex;flex-direction: column; justify-content: center;align-items: center;">
             <div style="width: 100%;display: flex; justify-content: center;">
-                <img src=${image} alt="Imagem da receita" style="width: 80%;object-fit: cover;">
+                <img src=${image} alt="Imagem da receita" style="width: 100%;object-fit: cover;">
             </div>
             <h1 style="text-align: center; font-size: 22px; margin: 20px 0;">${title}</h1>
             <h2 style="text-align: left; font-size: 18px; margin-bottom: 30px;">INGREDIENTES:</h2>
