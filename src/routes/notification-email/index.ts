@@ -31,12 +31,12 @@ app.post("/email/send-recipe", async (req, res) => {
     const ing = ingredients.map((ing: string) => `<li>${ing}</li>`).join("");
     const html = `
         <div style="width: 100%;height: 100%; display: grid; place-items: center;">
-            <h1 style="text-align: center; font-size: 40px; margin: 0 10px;">${title}</h1>
-            <h2 style="text-align: left; font-size: 25px; margin: 0 10px;">INGREDIENTES:</h2>
-            <ul style="margin: 0 20px;">
+            <h1 style="text-align: center; font-size: 22px; margin: 30px 0;">${title}</h1>
+            <h2 style="text-align: left; font-size: 16px; margin: 30px 0;">INGREDIENTES:</h2>
+            <ul style="margin: 0 50px;">
                 ${ing}
              </ul>
-            <a href=${link} style="padding: 5px; background-color: #ff6a28; color: white;">VER RECEITA</a>
+            <a href=${link} style="padding: 5px; background-color: #ff6a28; color: white; text-align:center; border-radius: 20px; text-decoration: none;">VER RECEITA</a>
         </div>
     `
 
