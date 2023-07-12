@@ -35,15 +35,16 @@ app.post("/email/send-recipe", async (req, res) => {
                 <img src=${image} alt="Imagem da receita" style="width: 80%;object-fit: cover;">
             </div>
             <h1 style="text-align: center; font-size: 22px; margin: 20px 0;">${title}</h1>
-            <h2 style="text-align: left; font-size: 16px; margin-bottom: 30px;">INGREDIENTES:</h2>
-            <ul style="margin-bottom: 20px; width:100%;display:flex;">
+            <h2 style="text-align: left; font-size: 18px; margin-bottom: 30px;">INGREDIENTES:</h2>
+            <ul style="width:100%;display:flex;">
                 ${ing}
              </ul>
-            <div style="width: 100%;display: flex; justify-content: center;margin-top:30px;">
+            <p style="text-align: left; font-size: 16px; margin: 30px 0;">Clique no botão abaixo para ver a receita completa em nossa rede social.</p>
+            <div style="width: 100%;display: flex; justify-content: center;margin-top:50px;">
                 <a 
                     href=${link} 
-                    style="padding: 15px 25px;margin:0 auto;font-size: 22px;font-weight:bold; background-color: #ff6a28; color: white; text-align:center; border-radius: 20px; text-decoration: none;"
-                >VER RECEITA</a>
+                    style="padding: 15px 25px;margin:0 auto;font-size: 22px;font-weight:bold; background-color: #ff6a28; color: #fff; text-align:center; border-radius: 20px; text-decoration: none;"
+                >VER RECEITA COMPLETA</a>
             </div>
         </div>
     `
