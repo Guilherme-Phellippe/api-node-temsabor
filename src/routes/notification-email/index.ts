@@ -13,8 +13,9 @@ const transporter = createTransport({
 const app = Router();
 
 app.post("/email/send-recipe", (req, res) => {
-    console.log(req.body)
     const { title , htmlContent, emails} = req.body
+
+    console.log(process.env.GMAIL_PASSWORD)
     
     if (typeof emails !== "object") {
         res.status(500).json({ Error: "The email inst array type" })
@@ -23,8 +24,6 @@ app.post("/email/send-recipe", (req, res) => {
     
 
     const emailsToString = emails.join(", ");
-
-    console.log(emailsToString)
 
     const info = transporter.sendMail({
         from: 'receitas.temsabor@gmail.com', // sender address
