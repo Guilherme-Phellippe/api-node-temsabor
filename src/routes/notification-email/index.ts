@@ -77,22 +77,27 @@ app.post("/user-data-push/register", async (req, res) => {
     }
 })
 
-
+/**
+ * ROUTE TO SEND EMAIL TO USER WITH EMAIL REGISTERED ON DATABASE
+ */
 app.post("/email/send-recipe", async (req, res) => {
     const { title, link, ingredients, image } = req.body
+    //SEARCH ALL EMAILS AND CELL_PHONES ON DATABASE
     const emails = await prisma.user_data_notification.findMany({
         select: {
             email: true,
             can_send_email: true
         }
     })
-
+    
+    //CHECK IF CLIENT TO SEND INGREDIENTS LIKE ARRAY
     if (typeof ingredients !== "object") {
         res.status(500).json({ Error: "The ingredients isnt array type" })
         return
     }
-
+    //TRANSFORM INGREDIENTS FROM ARRAY TO STRING WITH <LI>
     const ing = ingredients.map((ing: string) => `<li style='margin: 4px 0;width:100%'>${ing}</li>`).join("");
+   //BUILDING THE HTML TO SEND TO EMAIL
     const html = `
         <div style="width: 100vw;height: 100%; display: flex;flex-direction: column; justify-content: center;align-items: center;">
             <div style="width: 100%;display: flex; justify-content: center;">
@@ -112,8 +117,7 @@ app.post("/email/send-recipe", async (req, res) => {
             </div>
         </div>
     `
-
-
+    //LOOPING EACH EMAIL TO SEND EMAIL
     emails.forEach((data: any) => {
         console.log(data.email, data.can_send_email)
         data.can_send_email && data.email !== "" &&
@@ -125,7 +129,7 @@ app.post("/email/send-recipe", async (req, res) => {
             }, (err: any) => res.status(400).json(err));
     });
 
-    res.status(201).json({ success: true })
+    res.status(200).json({ success: true })
 })
 
 
