@@ -12,6 +12,7 @@ const transporter = createTransport({
 const app = Router();
 
 app.post("/email/send-recipe", async (req, res) => {
+    console.log(req.body)
     const { title , htmlContent, emails} = req.body
     
     if (typeof emails !== "object") {
@@ -27,7 +28,7 @@ app.post("/email/send-recipe", async (req, res) => {
         to: emailsToString, // list of receivers
         subject: title, // Subject line
         html: htmlContent, // html body
-    }, (err)=> {
+    }, (err: any)=> {
         if(!err) res.status(201).json(info)
         else res.status(400).json(err)
     });
