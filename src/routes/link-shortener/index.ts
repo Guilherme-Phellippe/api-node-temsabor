@@ -17,7 +17,6 @@ app.post("/create-short-link", async (req, res) => {
     if (!origin_link.includes("https://temsabor.blog/")) throw new Error("format link incorrect, the link need has 'https://' and no 'www'")
     // if url was sent correctly, we remove the url: https://temsabor.blog/ 
     // if the url to be sent with the 'recipe' or 'tip' parameter, we also remove it
-    console.log("origin link:",origin_link)
     const key: string = origin_link.replace("https://temsabor.blog/", "").replace("recipe/", "").replace("tip/", "")
     //remove text accent
     const defaultAccent = [
@@ -27,7 +26,7 @@ app.post("/create-short-link", async (req, res) => {
         { regex: /[\u00F2-\u00F6]/g, substituto: 'o' },
         { regex: /[\u00F9-\u00FC]/g, substituto: 'u' },
         { regex: /[\u00E7]/g, substituto: 'c' },
-        { regex: "ç", substituto: 'c' },
+        { regex: "%C3%A7", substituto: 'c' },
     ]
     console.log("KEY:", key)
     var newKey: string = key;
