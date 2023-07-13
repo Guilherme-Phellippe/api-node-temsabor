@@ -60,11 +60,11 @@ async function createShortLink(key: string, id: string) {
             recipeId: id,
             key: result,
             short_link: "https://ver-receita.cloud/" + result,
-            origin_link: "https://temsabor.blog/" + formatKey + "/" + id
+            origin_link: "https://temsabor.blog/" + result + "/" + id
         }
     })
 
-    return link_shortener ? true : false
+    return link_shortener
 }
 
 
