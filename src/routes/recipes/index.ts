@@ -9,7 +9,7 @@ import createShortLink from "../../scripts/createShortLinks";
 
 const app = Router();
 const prisma = new PrismaClient({
-    log: ["error"]
+    log: ["error", "query"]
 });
 const upload = multer({ storage: multer.memoryStorage() });
 
