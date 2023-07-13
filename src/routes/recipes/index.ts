@@ -5,7 +5,7 @@ import axios from "axios";
 import FormData from "form-data";
 import multer from 'multer';
 import sharp from 'sharp'
-import createShortLink from "../../scripts/createShortLinks";
+// import createShortLink from "../../scripts/createShortLinks";
 
 const app = Router();
 const prisma = new PrismaClient();
@@ -247,9 +247,9 @@ app.post('/recipe', async (req: any, res: any) => {
         }
     })
     
-    const resultShortLink = await createShortLink(recipe.name_recipe, recipe.id)
+    // const resultShortLink = await createShortLink(recipe.name_recipe, recipe.id)
     
-    res.status(201).json({ recipe, resultShortLink});
+    // res.status(201).json({ recipe, resultShortLink});
 });
 
 app.put('/recipe/:id', async (req: any, res: any) => {

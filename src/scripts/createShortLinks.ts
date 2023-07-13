@@ -25,48 +25,48 @@ const DEFAULT_ACCENTS = [
     { accent: 'ç', change: "c" }
 ]
 
-async function createShortLink(key: string, id: string) {
+// async function createShortLink(key: string, id: string) {
 
-    if(!key || !id) throw new Error("Its missing key or id!")
+//     if(!key || !id) throw new Error("Its missing key or id!")
 
-    const lowerCaseKey = key.toLowerCase();
+//     const lowerCaseKey = key.toLowerCase();
 
-    const keyNoAccent = lowerCaseKey.split("").map(letter => {
-        const hasAccent = DEFAULT_ACCENTS.find(accents => accents.accent === letter);
-        return hasAccent ? letter.replace(hasAccent.accent, hasAccent.change) : letter
-    }).join("")
+//     const keyNoAccent = lowerCaseKey.split("").map(letter => {
+//         const hasAccent = DEFAULT_ACCENTS.find(accents => accents.accent === letter);
+//         return hasAccent ? letter.replace(hasAccent.accent, hasAccent.change) : letter
+//     }).join("")
 
-    const formatKey = keyNoAccent.replaceAll(" ", "-")
+//     const formatKey = keyNoAccent.replaceAll(" ", "-")
 
-    const keysDataBase = await prisma.link_shortener.findMany({
-        select: {
-            key: true,
-        }
-    });
+//     const keysDataBase = await prisma.link_shortener.findMany({
+//         select: {
+//             key: true,
+//         }
+//     });
 
-    var result = formatKey;
-    var tryCount = 0
-    for (let index = 0; index < keysDataBase.length; index++) {
-        if(keysDataBase[index].key === result){
-            result = formatKey+tryCount
-            index = 0
-            tryCount++
-        }
-    }
-
-
-    const link_shortener = await prisma.link_shortener.create({
-        data: {
-            recipeId: id,
-            key: result,
-            short_link: "https://ver-receita.cloud/" + result,
-            origin_link: "https://temsabor.blog/" + result + "/" + id
-        }
-    })
-
-    return link_shortener
-}
+//     var result = formatKey;
+//     var tryCount = 0
+//     for (let index = 0; index < keysDataBase.length; index++) {
+//         if(keysDataBase[index].key === result){
+//             result = formatKey+tryCount
+//             index = 0
+//             tryCount++
+//         }
+//     }
 
 
-export default createShortLink
+//     const link_shortener = await prisma.link_shortener.create({
+//         data: {
+//             recipeId: id,
+//             key: result,
+//             short_link: "https://ver-receita.cloud/" + result,
+//             origin_link: "https://temsabor.blog/" + result + "/" + id
+//         }
+//     })
+
+//     return link_shortener
+// }
+
+
+// export default createShortLink
 
