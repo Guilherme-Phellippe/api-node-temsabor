@@ -105,7 +105,7 @@ app.post("/email/send-recipe", async (req, res) => {
         { regex: /[\u00E7]/g, substituto: 'c' },
         { regex: "%C3%A7", substituto: 'c' }
     ]
-    var newLink = link
+    var newLink = link.replace(" ", "%20")
     for (let i = 0; i < defaultAccents.length; i++) {
         newLink = newLink.replace(defaultAccents[i].regex, defaultAccents[i].substituto);
     }
