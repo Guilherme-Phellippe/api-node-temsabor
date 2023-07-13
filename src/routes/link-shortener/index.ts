@@ -1,10 +1,7 @@
-import { PrismaClient } from "@prisma/client"
-
 import { Router } from "express"
 import createShortLink from "../../scripts/createShortLinks";
 
 const app = Router();
-const prisma = new PrismaClient();
 
 
 /**
