@@ -131,12 +131,12 @@ app.get('/recipes/:categoryId/category', async (req: any, res: any) => {
     res.status(200).json(recipes)
 });
 
-app.get('/recipe/:id', async (req: any, res: any) => {
-    const id = req.params.id
+app.get('/recipe/:slug', async (req: any, res: any) => {
+    const slug = req.params.slug
 
     const recipe = await prisma.recipe.findUniqueOrThrow(
         {
-            where: { id },
+            where: { slug },
             select: {
                 id: true,
                 images_recipe: true,

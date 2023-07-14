@@ -51,6 +51,7 @@ app.get('/feeds', async (req: any, res: any) => {
         select: {
             id: true,
             images_recipe: true,
+            slug: true,
             videos_recipe: true,
             name_recipe: true,
             time: true,
