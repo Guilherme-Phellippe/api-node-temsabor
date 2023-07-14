@@ -25,9 +25,6 @@ route.use(prizes);
 import notifications from "./routes/notification-app/index.js"
 route.use(notifications)
 
-import linkShortener from "./routes/link-shortener/index.js"
-route.use(linkShortener)
-
 // import metaPixel from "./routes/meta-pixel/index.js"
 // route.use(metaPixel)
 
