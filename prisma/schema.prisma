@@ -12,6 +12,7 @@ model Recipe {
   categoryId        String
   userId            String
   name_recipe       String
+  slug              String?
   images_recipe     Json[]
   videos_recipe     String[]
   time              Int

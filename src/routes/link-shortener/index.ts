@@ -1,5 +1,5 @@
 import { Router } from "express"
-import createShortLink from "../../scripts/createShortLinks";
+import createShortLink from "../../scripts/transformTextToSlug";
 
 const app = Router();
 

@@ -5,7 +5,7 @@ import axios from "axios";
 import FormData from "form-data";
 import multer from 'multer';
 import sharp from 'sharp'
-import createShortLink from "../../scripts/createShortLinks";
+import createShortLink from "../../scripts/transformTextToSlug";
 
 const app = Router();
 const prisma = new PrismaClient({
