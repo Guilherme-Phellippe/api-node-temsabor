@@ -32,8 +32,7 @@ model Recipe {
   category Category @relation(fields: [categoryId], references: [id])
   user     User     @relation(fields: [userId], references: [id])
 
-  comments       Comment[]
-  link_shortener link_shortener[]
+  comments Comment[]
 }
 
 model Tip {
@@ -141,23 +140,12 @@ model Prize {
   winner Winner[]
 }
 
-model link_shortener {
-  id          String   @id @default(uuid())
-  recipeId    String   @unique
-  key         String   @unique
-  short_link  String   @unique
-  origin_link String
-  createdAt   DateTime @default(now())
-
-  Recipe Recipe @relation(fields: [recipeId], references: [id])
-}
-
 model User_data_notification {
   id                String   @id @default(uuid())
   userId            String   @default("")
-  email             String   @default("")
+  email             String?
   can_send_email    Boolean  @default(true)
-  cell_phone        String   @default("")
+  cell_phone        String?
   can_send_sms      Boolean  @default(true)
   is_whatsapp       Boolean  @default(true)
   can_send_whatsapp Boolean  @default(true)
