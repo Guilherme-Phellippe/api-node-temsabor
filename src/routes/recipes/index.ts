@@ -5,6 +5,7 @@ import axios from "axios";
 import FormData from "form-data";
 import multer from 'multer';
 import sharp from 'sharp'
+import { transformTextToSlug } from "../../scripts/transformTextToSlug";
 // import { transformTextToSlug } from "../../scripts/transformTextToSlug";
 
 const app = Router();
@@ -20,6 +21,7 @@ app.get('/recipes', async (req: any, res: any) => {
             images_recipe: true,
             videos_recipe: true,
             name_recipe: true,
+            slug: true,
             time: true,
             portion: true,
             ing: true,
@@ -79,6 +81,7 @@ app.get('/recipes/:categoryId/category', async (req: any, res: any) => {
             images_recipe: true,
             videos_recipe: true,
             name_recipe: true,
+            slug: true,
             time: true,
             portion: true,
             ing: true,
@@ -139,6 +142,7 @@ app.get('/recipe/:id', async (req: any, res: any) => {
                 images_recipe: true,
                 videos_recipe: true,
                 name_recipe: true,
+                slug: true,
                 time: true,
                 portion: true,
                 ing: true,
@@ -214,12 +218,13 @@ app.get('/recipe/:id', async (req: any, res: any) => {
 
 app.post('/recipe', async (req: any, res: any) => {
     const recipeInfo = req.body
+    const slug = await transformTextToSlug(recipeInfo.name_recipe) as string
 
-    
     const recipe = await prisma.recipe.create({
         data: {
             name_recipe: recipeInfo.name_recipe,
             images_recipe: recipeInfo.images_recipe,
+            slug,
             videos_recipe: recipeInfo.videos_recipe || [],
             time: recipeInfo.time,
             portion: recipeInfo.portion,
@@ -233,7 +238,7 @@ app.post('/recipe', async (req: any, res: any) => {
             categoryId: recipeInfo.categoryId,
         }
     })
-    
+
     res.status(201).json(recipe);
 });
 
