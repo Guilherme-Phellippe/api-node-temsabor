@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 async function createSlug() {
     const recipes = await prisma.recipe.findMany();
+    console.log(recipes)
 
     const recipesFiltered = recipes.filter(recipe => !recipe.slug);
 

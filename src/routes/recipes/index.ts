@@ -8,9 +8,7 @@ import sharp from 'sharp'
 // import { transformTextToSlug } from "../../scripts/transformTextToSlug";
 
 const app = Router();
-const prisma = new PrismaClient({
-    log: ["error", "query"]
-});
+const prisma = new PrismaClient();
 const upload = multer({ storage: multer.memoryStorage() });
 
 
