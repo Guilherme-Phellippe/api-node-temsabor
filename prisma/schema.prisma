@@ -152,6 +152,19 @@ model User_data_notification {
   createdAt         DateTime @default(now())
 }
 
+model Stories {
+  id                        String   @id @default(uuid())
+  story_title               String
+  story_publisher           String
+  story_publisher_logo_src  String
+  story_poster_portrait_src String
+  pages                     Json[]   @default([])
+  created_at                DateTime @default(now())
+  updated_at                DateTime @updatedAt
+
+  @@map("stories")
+}
+
 // model Pixel_tem_sabor {
 //   id                          String @id @default(uuid())
 //   view_home                   Int    @default(0)

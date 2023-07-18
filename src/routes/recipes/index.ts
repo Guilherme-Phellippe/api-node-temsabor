@@ -5,8 +5,7 @@ import axios from "axios";
 import FormData from "form-data";
 import multer from 'multer';
 import sharp from 'sharp'
-import { transformTextToSlug } from "../../scripts/transformTextToSlug";
-// import { transformTextToSlug } from "../../scripts/transformTextToSlug";
+import { transformTextToSlug } from "../../scripts/transformTextToSlug.js";
 
 const app = Router();
 const prisma = new PrismaClient();
