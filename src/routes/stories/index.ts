@@ -4,15 +4,6 @@ import { PrismaClient } from "@prisma/client"
 const app = Router();
 const prisma = new PrismaClient
 
-
-interface storyTypes {
-  id: string,
-  story_title: string,
-  story_poster_portrait_src: string,
-  updated_at: string,
-}
-
-
 app.get("/stories/", async (req, res) => {
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -21,6 +12,7 @@ app.get("/stories/", async (req, res) => {
   const story = await prisma.stories.findMany({
     select: {
       id: true,
+      slug: true,
       story_title: true,
       story_poster_portrait_src: true,
     },
@@ -29,7 +21,7 @@ app.get("/stories/", async (req, res) => {
         gte: sevenDaysAgo
       }
     }
-  }) as unknown;
+  });
 
   if (story) res.status(200).json(story)
   else res.status(500)
