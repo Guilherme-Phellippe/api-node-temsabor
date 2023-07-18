@@ -34,5 +34,8 @@ route.use(notificationPush);
 import notificationEmail from "./routes/notification-email/index.js"
 route.use(notificationEmail);
 
+import stories from "./routes/stories/index.js"
+route.use(stories);
+
 
 export default route;

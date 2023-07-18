@@ -154,6 +154,7 @@ model User_data_notification {
 
 model Stories {
   id                        String   @id @default(uuid())
+  slug                      String   @default("")
   story_title               String
   story_publisher           String
   story_publisher_logo_src  String
