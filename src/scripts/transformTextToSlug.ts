@@ -26,7 +26,7 @@ const DEFAULT_ACCENTS = [
     { accent: 'ç', change: "c" }
 ]
 
-export async function  transformTextToSlug(text: string) {
+export async function transformTextToSlug(text: string, table: string) {
     return new Promise(async (resolve, reject) => {
         if (!text) reject("Its missing text to transform slug!")
 
@@ -39,20 +39,41 @@ export async function  transformTextToSlug(text: string) {
 
         const formatText = textNoAccent.replaceAll(" ", "-")
 
-        const existSlug = await prisma.recipe.findMany({
-            where: {
-                slug: {
-                    contains: formatText
+        var existSlug;
+        if (table === "recipe") {
+            existSlug = await prisma.recipe.findMany({
+                where: {
+                    slug: {
+                        contains: formatText
+                    }
+                },
+                select: {
+                    slug: true,
                 }
-            },
-            select: {
-                slug: true,
+            });
+        } else {
+            existSlug = await prisma.stories.findMany({
+                where: {
+                    slug: {
+                        contains: formatText
+                    }
+                },
+                select: {
+                    slug: true,
+                }
+            });
+        }
+
+        var newSlug:string = formatText
+        if (existSlug.length) {
+            newSlug += existSlug.length
+            const isEqual = existSlug.find((slug) => slug.slug === newSlug);
+            if(isEqual){
+                const endNumber = newSlug.replace(/\D+/g, "");
+                const nextNumber = Number(endNumber) + 1
+                newSlug = formatText + nextNumber
             }
-        });
-
-        var newSlug = formatText
-        if (existSlug.length) newSlug += existSlug.length
-
+        }
 
         resolve(newSlug)
     })

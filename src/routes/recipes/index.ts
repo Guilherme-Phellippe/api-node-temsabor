@@ -217,7 +217,7 @@ app.get('/recipe/:slug', async (req: any, res: any) => {
 
 app.post('/recipe', async (req: any, res: any) => {
     const recipeInfo = req.body
-    const slug = await transformTextToSlug(recipeInfo.name_recipe) as string
+    const slug = await transformTextToSlug(recipeInfo.name_recipe, "recipe") as string
 
     const recipe = await prisma.recipe.create({
         data: {
