@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { PrismaClient } from "@prisma/client"
-import { transformTextToSlug } from "../../scripts/transformTextToSlug";
+import { transformTextToSlug } from "../../scripts/transformTextToSlug.js";
 
 const app = Router();
 const prisma = new PrismaClient

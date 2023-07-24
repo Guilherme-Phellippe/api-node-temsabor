@@ -37,5 +37,8 @@ route.use(notificationEmail);
 import stories from "./routes/stories/index.js"
 route.use(stories);
 
+import sitemaps from "./routes/sitemaps/index.js"
+route.use(sitemaps);
+
 
 export default route;
