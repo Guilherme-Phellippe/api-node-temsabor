@@ -72,4 +72,41 @@ app.get("/recipes-news.xml", async (req, res) => {
 })
 
 
+app.get("/tips-news.xml", async (req, res) => {
+    const tips = await prisma.tip.findMany({
+        select: {
+            id:true,
+            name_tip: true,
+            word_key: true,
+            createdAt: true
+        }
+    });
+
+    const urlset = xmlbuilder.create('urlset', { version: '1.0', encoding: 'UTF-8' });
+    urlset.att('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
+    urlset.att('xmlns:news', 'http://www.google.com/schemas/sitemap-news/0.9');
+
+
+    tips.forEach(tip => {
+        const news = urlset.ele('url');
+        news.ele('loc', `https://temsabor.blog/tip/${tip.name_tip}/${tip.id}`);
+        news.ele('lastmod', moment(tip.createdAt).toISOString());
+
+        const newsData = news.ele('news:news');
+        newsData.ele('news:publication_date', moment(tip.createdAt).toISOString());
+        newsData.ele('news:title').dat(tip.name_tip);
+        newsData.ele('news:keywords').dat(`Notícia, Receitas, Google News, ${!!tip.word_key.length && tip.word_key[0]}`);
+        const publicationElement = newsData.ele('news:publication')
+        publicationElement.ele('news:name', 'Tem sabor receitas');
+        publicationElement.ele('news:language', "pt-br");
+    })
+
+    const xml = urlset.end({ pretty: true });
+
+    // Envie o sitemap.xml como resposta
+    res.set('Content-Type', 'application/xml');
+    res.send(xml);
+})
+
+
 export default app
