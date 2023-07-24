@@ -50,15 +50,18 @@ app.get("/recipes-news.xml", async (req, res) => {
     urlset.att('xmlns:news', 'http://www.google.com/schemas/sitemap-news/0.9');
 
 
-    recipes.forEach(recipe =>{
+    recipes.forEach(recipe => {
         const news = urlset.ele('url');
         news.ele('loc', `https://temsabor.blog/receitas/${recipe.slug}`);
+        news.ele('lastmod', moment(recipe.createdAt).toISOString());
 
         const newsData = news.ele('news:news');
-        newsData.ele('news:publication').ele('news:name', 'Tem sabor receitas');
         newsData.ele('news:publication_date', moment(recipe.createdAt).toISOString());
         newsData.ele('news:title').dat(recipe.name_recipe);
         newsData.ele('news:keywords').dat(`Notícia, Receitas, Google News, ${!!recipe.word_key.length && recipe.word_key[0]}`);
+        const publicationElement = newsData.ele('news:publication')
+        publicationElement.ele('news:name', 'Tem sabor receitas');
+        publicationElement.ele('news:language', "pt-br");
     })
 
     const xml = urlset.end({ pretty: true });
