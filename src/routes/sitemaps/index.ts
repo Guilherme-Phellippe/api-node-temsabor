@@ -35,7 +35,7 @@ app.get("/sitemap-recipes.xml", async (req, res) => {
     res.send(xml);
 })
 
-app.get("/recipes-news.xml", async (req, res) => {
+app.get("/recipes-news", async (req, res) => {
     const recipes = await prisma.recipe.findMany({
         select: {
             slug: true,
@@ -99,7 +99,7 @@ app.get("/recipes-news.xml", async (req, res) => {
         rssRecipe.ele('category', recipe.category.name_category);
         rssRecipe.ele('guid', { isPermaLink: 'false' }, recipe.slug);
         rssRecipe.ele('description', { 'content:encoded': "Você precisa conhecer essa receita! criamos com ingredientes selecionados e medidos para um sabor irresistível." });
-        rssRecipe.ele('content:encoded', `<h2>INGREDIENTES:</h2><br/><br/><ul>${recipe.ing.map(r => `<li>${r}</li>`)}</ul><p>Acesse nossa rede social para ver a receita completa</p>`);
+        rssRecipe.ele('content:encoded', `<h2>INGREDIENTES:</h2><br><br><ul>${recipe.ing.map(r => `<li>${r}</li>`)}</ul><br><br><p>Acesse nossa rede social para ver a receita completa</p>`);
         rssRecipe.ele('slash:comments', countComment);
     })
 
