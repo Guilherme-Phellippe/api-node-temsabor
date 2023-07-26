@@ -36,7 +36,15 @@ app.get("/sitemap-recipes.xml", async (req, res) => {
 })
 
 app.get("/recipes-news", async (req, res) => {
+    const date = new Date();
+    const lastDay = date.setDate(date.getDate() - 1).toString();
+
     const recipes = await prisma.recipe.findMany({
+        where:{
+            createdAt:{
+                gte: lastDay,
+            }
+        },
         select: {
             slug: true,
             name_recipe: true,
