@@ -89,12 +89,19 @@ app.get("/recipes-news", async (req, res) => {
     image.ele('width', '32');
     image.ele('height', '32');
 
+    interface typeImages{
+        images_recipe: {
+            big: string
+        }[];
+    }
 
-    console.log(recipes[0])
     recipes.forEach(recipe => {
         const countComment = recipe.comments.length
         const rssRecipe = channel.ele('item');
-        const urlImage = recipe.images_recipe[0]
+        let images: typeImages = { images_recipe: [] }
+        if(recipe.images_recipe[0] !== null && typeof recipe.images_recipe[0] === 'object' && 'big' in recipe.images_recipe[0]){
+            images.images_recipe.push(recipe.images_recipe[0] as { big: string})
+        }
         rssRecipe.ele('title', recipe.name_recipe);
         rssRecipe.ele('link', `https://temsabor.blog/receitas/${recipe.slug}`);
         rssRecipe.ele('dc:creator', recipe.user.name);
@@ -104,7 +111,7 @@ app.get("/recipes-news", async (req, res) => {
         rssRecipe.ele('description', { 'content:encoded': "Você precisa conhecer essa receita! criamos com ingredientes selecionados e medidos para um sabor irresistível." });
         rssRecipe.ele('content:encoded', `<h2>INGREDIENTES:</h2><br><br><ul>${recipe.ing.map(r => `<li>${r}</li>`)}</ul><br><br><p>Acesse nossa rede social para ver a receita completa</p>`);
         rssRecipe.ele('slash:comments', countComment);
-        rssRecipe.ele('enclosure', { url: recipe.images_recipe, type: 'image/jpeg' }); 
+        rssRecipe.ele('enclosure', { url: images.images_recipe[0].big , type: 'image/webp' });
     })
 
     const rssFeed = root.end({ pretty: true });
