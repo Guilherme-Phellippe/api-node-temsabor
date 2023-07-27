@@ -5,6 +5,7 @@ import axios from "axios";
 import FormData from "form-data";
 import multer from 'multer';
 import sharp from 'sharp'
+import fs from "fs"
 import { transformTextToSlug } from "../../scripts/transformTextToSlug.js";
 
 const app = Router();
@@ -396,7 +397,7 @@ app.post('/upload-images', upload.single('image'), async (req: any, res: any) =>
     const namesSizes = ["big", "medium", "small", "thumb"];
     const images: { [key: string]: string } = {};
 
-    for (let n = 0; n < 3; n++) {
+    for (let n = 0; n < sizes.length; n++) {
         try {
             const buffer = await sharp(req.file.buffer).clone().resize({ width: sizes[n] }).webp().toBuffer();
 
@@ -407,7 +408,9 @@ app.post('/upload-images', upload.single('image'), async (req: any, res: any) =>
             const response = await axios.post('https://api.imgbb.com/1/upload', form)
 
             if (response.status === 200) {
-                images[namesSizes[n]] = response.data.data.url
+                images[namesSizes[n]] = response.data.data.url;
+                const nameKey = "byteLength"+namesSizes[n].charAt(0).toUpperCase()+namesSizes[n].substring(1, namesSizes[n].length)
+                images[nameKey] = buffer.byteLength.toString();
             } else {
                 res.status(response.status).send(response.data.error)
             }
