@@ -37,7 +37,7 @@ app.get("/sitemap-recipes.xml", async (req, res) => {
 
 app.get("/recipes-news", async (req, res) => {
     const date = new Date();
-    date.setDate(date.getDate() - 1);
+    date.setDate(date.getDate() - 2);
     
     const recipes = await prisma.recipe.findMany({
         where:{
@@ -72,12 +72,12 @@ app.get("/recipes-news", async (req, res) => {
 
 
     const root = xmlbuilder.create('rss', { version: '1.0', encoding: 'UTF-8' });
-    root.attribute('xmlns:content', 'http://purl.org/rss/1.0/modules/content/');
-    root.attribute('xmlns:wfw', 'http://wellformedweb.org/CommentAPI/');
-    root.attribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
-    root.attribute('xmlns:atom', 'http://www.w3.org/2005/Atom');
-    root.attribute('xmlns:sy', 'http://purl.org/rss/1.0/modules/syndication/');
-    root.attribute('xmlns:slash', 'http://purl.org/rss/1.0/modules/slash/');
+    root.attribute('xmlns:content', 'https://purl.org/rss/1.0/modules/content/');
+    root.attribute('xmlns:wfw', 'https://wellformedweb.org/CommentAPI/');
+    root.attribute('xmlns:dc', 'https://purl.org/dc/elements/1.1/');
+    root.attribute('xmlns:atom', 'https://www.w3.org/2005/Atom');
+    root.attribute('xmlns:sy', 'https://purl.org/rss/1.0/modules/syndication/');
+    root.attribute('xmlns:slash', 'https://purl.org/rss/1.0/modules/slash/');
     root.attribute('version', '2.0');
 
     const channel = root.ele('channel');
