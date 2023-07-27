@@ -123,7 +123,7 @@ app.get("/recipes-news", async (req, res) => {
         rssRecipe.ele('enclosure', { 
             url: images.images_recipe[0].big,
             type: 'image/webp',
-            length: images.images_recipe[0].byteLengthBig || "102232"
+            length: images.images_recipe[0]?.byteLengthBig || "102232"
         });
     })
 
