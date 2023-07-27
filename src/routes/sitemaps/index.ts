@@ -77,6 +77,7 @@ app.get("/recipes-news", async (req, res) => {
     root.attribute('xmlns:dc', 'https://purl.org/dc/elements/1.1/');
     root.attribute('xmlns:atom', 'https://www.w3.org/2005/Atom');
     root.attribute('xmlns:sy', 'https://purl.org/rss/1.0/modules/syndication/');
+    root.attribute('xmlns:slash', 'https://web.resource.org/rss/1.0/modules/slash/');
     root.attribute('version', '2.0');
 
     const channel = root.ele('channel');
