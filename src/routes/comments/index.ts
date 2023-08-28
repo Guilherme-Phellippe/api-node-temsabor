@@ -58,6 +58,7 @@ app.delete('/comment/:id/user/:userId', async (req: any, res: any) => {
 app.post('/comment/:id/answer', async (req: any, res: any) => {
     const { id } = req.params;
 
+
     const comment = await prisma.comment.findUniqueOrThrow({
         where: {
             id
@@ -91,7 +92,7 @@ app.post('/comment/:id/answer', async (req: any, res: any) => {
             id,
         },
         data: {
-            answer: comment.answer
+            answer: comment.answer as any
         }
     })
 

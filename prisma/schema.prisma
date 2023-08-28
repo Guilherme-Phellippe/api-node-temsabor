@@ -60,7 +60,7 @@ model Comment {
   tipId     String?
   userId    String
   comment   String
-  answer    Json[]
+  answer    Json[]   @default([])
   createdAt DateTime @default(now())
 
   user   User    @relation(fields: [userId], references: [id])
