@@ -8,26 +8,27 @@ datasource db {
 }
 
 model Recipe {
-  id                String   @id @default(uuid())
-  categoryId        String
-  userId            String
-  name_recipe       String
-  slug              String   @unique
-  images_recipe     Json[]
-  videos_recipe     String[]
-  time              Int
-  portion           Int
-  ing               String[]
-  stuffing_ing      String[] @default([])
-  type_stuffing_ing String[] @default(["Recheio"])
-  word_key          String[]
-  prepareMode       String
-  type_prepare_mode String[] @default(["Principal"])
-  nmr_hearts        String[] @default([])
-  nmr_saved         String[] @default([])
-  nmr_eyes          Int      @default(0)
-  votes             String[]
-  createdAt         DateTime @default(now())
+  id                   String   @id @default(uuid())
+  categoryId           String
+  userId               String
+  name_recipe          String
+  slug                 String   @unique
+  images_recipe        Json[]
+  videos_recipe        String[]
+  time                 Int
+  portion              Int
+  ing                  String[]
+  products_used_recipe String[] @default([])
+  stuffing_ing         String[] @default([])
+  type_stuffing_ing    String[] @default(["Recheio"])
+  word_key             String[]
+  prepareMode          String
+  type_prepare_mode    String[] @default(["Principal"])
+  nmr_hearts           String[] @default([])
+  nmr_saved            String[] @default([])
+  nmr_eyes             Int      @default(0)
+  votes                String[]
+  createdAt            DateTime @default(now())
 
   category Category @relation(fields: [categoryId], references: [id])
   user     User     @relation(fields: [userId], references: [id])
